@@ -1,6 +1,7 @@
 #include "stdio.h"
+#include "../application/functions.h"
 
 int main() {
-    printf("test");
+    runApplication();
     return 0;
 }
