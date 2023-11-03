@@ -16,7 +16,7 @@ void runApplication() {
         doNextOperation(input);
     }
 }
-
+// Does the next operation
 void doNextOperation(char input[]) {
     if (strcmp(input, "quit") == 0) {
         printf("Quitting the application.");
