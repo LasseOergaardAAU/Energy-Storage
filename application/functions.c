@@ -2,7 +2,7 @@
 #include "stdio.h"
 #include "string.h"
 #include "stdlib.h"
-
+//Runs the application
 void runApplication() {
     while (1) {
         printf("Write a command.\n>");
