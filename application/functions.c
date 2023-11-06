@@ -27,11 +27,13 @@ void doNextOperation(char input[], hydrogenTank tank) {
         printf("Quitting the application.");
         exit(0);
     } else if (strcmp(input, "help") == 0) {
-        printf("Here you have the different commands that you can input: \n>status\n>quit\n>graph\n>table\n>prognosis\n>hydrogen");
+        printf("Here you have the different commands that you can input: \n>status\n>quit\n>graph\n>table\n>prognosis\n>hydrogen\n");
     } else if (strcmp(input, "status") == 0) {
         printTankStatus(tank);
     } else if (strcmp(input, "simulation") == 0) {
         runSimulation();
+    } else if (strcmp(input, "hydrogen") == 0){
+        printHydrogen();
     }
 
 }
@@ -47,7 +49,6 @@ void runSimulation() {
     while(1) {
         printDate(startingDate);
     }
-
 }
 
 void printDate(date inputDate) {
@@ -89,19 +90,43 @@ void printTankStatus(hydrogenTank tank) {
     double hydrogen_status = tankPercentageFull(tank);
     double electricitySpent = (tank.totalElectricityUsedKwH);
     double hydrogenAmount = (tank.hydrogenAmountKg);
+    double hydrogenProduced = (tank.totalAmountOfHydrogenProducedKg);
     printf("The tank is %.1lf%% full\n", hydrogen_status);
     printf("The amount of hydrogen in the tank is %.1lf kg\n", hydrogenAmount);
     printf("The amount of electricity spent on producing that hydrogen: %.1lf\n", electricitySpent);
+    printf("The amount of hydrogen produced %.1lf kg\n", hydrogenProduced);
 };
 
+//Function to increase our hydrogen amount in our tank
 hydrogenTank increaseTank(hydrogenTank tank, double kg) {
     tank.hydrogenAmountKg += kg;
     return tank;
 }
-
+//Function to decrease our hydrogen amount in our tank
 hydrogenTank decreaseTank(hydrogenTank tank, double kg) {
     tank.hydrogenAmountKg -= kg;
     return tank;
 }
 
+//Function that tells us how much hydrogen is produced on a certain date
+void printHydrogen (date inputDate){
 
+    double exceedingElectricity; //Skal være for en specifik dag
+    double producedHydrogen;
+
+    producedHydrogen = exceedingElectricity /KWH_PER_KG_HYDROGEN;
+
+    printf("Enter a date and time: (yyyy-mm-dd-HH)");
+    scanf("%d-%d-%d-%d", &inputDate.year, &inputDate.month, &inputDate.day, &inputDate.hour);
+
+    printf("On the day: %d-%d-%d-%d\n %lf kgs of hydrogen was produced.",
+           inputDate.year, inputDate.month, inputDate.day, inputDate.hour, producedHydrogen);
+
+};
+
+double exceedingElectricity(date inputDate, hydrogenTank tank){
+    double electricity_exceeding;
+    double electricityProduced;
+    electricity_exceeding = electricityProduced - tank.totalElectricityUsedKwH;
+
+};
