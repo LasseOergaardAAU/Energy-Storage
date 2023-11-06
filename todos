@@ -1,14 +1,5 @@
 Man skal kunne:
-    - Skrive "help" for at få alle de mulige funktioner og kommandoer frem.
-        - Kommando typer: "Status"
-                          "graph",
-                          "hydrogen",
-                          "prognose",
-                          "tabel",
-                          "quit",
 
-    - Skrive "status" for at få status på mængden af hydrogen i tanken.
-    - Functions til at øge og sænke mængden af hydrogen i tanken.
     - Se den totale mængde electricitet brugt på at lave hydrogen.
     - Se den totale mængde hydrogen lavet.
     - Lave en function som fortæller, baseret på om der er overskydende

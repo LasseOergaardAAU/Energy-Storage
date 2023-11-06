@@ -1,0 +1,10 @@
+# ninja log v5
+3	306	7207111383341442	build.ninja	e69e0a04e9874a8a
+17	613	7207078129260398	src/CMakeFiles/main.dir/main.c.obj	7a78ff62cda72d46
+139	308	7207111009086670	src/main.exe	1ecde6b13b93328e
+4	138	7207111007436650	src/CMakeFiles/main.dir/__/application/functions.c.obj	5fad9f2251a86bd9
+43	305	7207051827101507	src/CMakeFiles/main.dir/__/application/dataCaller.c.obj	e399775043dc4116
+7	227	7207111405230839	src/CMakeFiles/main.dir/__/application/functions.c.obj	5fad9f2251a86bd9
+229	699	7207111409780858	src/main.exe	1ecde6b13b93328e
+4	174	7207112416930050	src/CMakeFiles/main.dir/__/application/functions.c.obj	5fad9f2251a86bd9
+175	378	7207112418920051	src/main.exe	1ecde6b13b93328e
