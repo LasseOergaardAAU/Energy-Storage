@@ -27,7 +27,10 @@ void doNextOperation(char input[], hydrogenTank tank) {
         printf("Quitting the application.");
         exit(0);
     } else if (strcmp(input, "help") == 0) {
-        printf("Here you have the different commands that you can input: \n>status\n>quit\n>graph\n>table\n>prognosis\n>hydrogen");
+        printf("Here you have the different commands that you can input:\n");
+        printf("|  'Table'   | 'Prognosis' | 'Hydrogen' |\n");
+        printf("|  'Status'  |   'Quit'    |  'Graph'   |\n");
+        printf("|  'Simulation' |        ...        |\n");
     } else if (strcmp(input, "status") == 0) {
         printTankStatus(tank);
     } else if (strcmp(input, "simulation") == 0) {
@@ -57,6 +60,7 @@ void printDate(date inputDate) {
     );
 }
 
+// Checks if the input is valid through a series of if else statements with the help of string copy.
 int isValidInput(char input[]) {
     if (strcmp(input, "quit") == 0) {
         return 1;
@@ -64,7 +68,7 @@ int isValidInput(char input[]) {
         return 1;
     } else if (strcmp(input, "status") == 0) {
         return 1;
-    }else if (strcmp(input, "graph") == 0) {
+    } else if (strcmp(input, "graph") == 0) {
         return 1;
     } else if (strcmp(input, "table") == 0) {
         return 1;
