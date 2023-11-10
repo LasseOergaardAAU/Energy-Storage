@@ -1,7 +1,7 @@
 Man skal kunne:
 
-    - Se den totale mængde electricitet brugt på at lave hydrogen.
-    - Se den totale mængde hydrogen lavet.
+   // - Se den totale mængde electricitet brugt på at lave hydrogen.
+   // - Se den totale mængde hydrogen lavet.
     - Lave en function som fortæller, baseret på om der er overskydende
       elektricitet, om hydrogen skal dannes
     - skriv "Hydrogen" Udskriv hvor meget hydrogen der blev produceret på bestemt dag
