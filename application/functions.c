@@ -33,7 +33,7 @@ void doNextOperation(char input[], hydrogenTank tank) {
     } else if (strcmp(input, "simulation") == 0) {
         runSimulation();
     } else if (strcmp(input, "hydrogen") == 0){
-        printHydrogen();
+
     }
 
 }
@@ -91,7 +91,32 @@ void printTankStatus(hydrogenTank tank) {
     double electricitySpent = (tank.totalElectricityUsedKwH);
     double hydrogenAmount = (tank.hydrogenAmountKg);
     double hydrogenProduced = (tank.totalAmountOfHydrogenProducedKg);
-    printf("The tank is %.1lf%% full\n", hydrogen_status);
+
+    hydrogen_status = 10;
+
+    if (hydrogen_status == 0) {
+        printf("|----------|\n"
+               "|          | 100%\n"
+               "|          | 90%\n"
+               "|          | 80%\n"
+               "|          | 70%\n"
+               "|          | 50%\n"
+               "|          | 40%\n"
+               "|          | 30%\n"
+               "|          | 20%\n"
+               "|          | 10%\n"
+               "|----------|\nThe tank is empty\n");
+    } else {
+        printf("|----------|\n|");
+        for (int i = 0; i < hydrogen_status ; ++i) {
+                printf("#");
+                for (int i = 0; i < 1 ; ++i) {
+                    printf("|\n|");
+                }
+            }
+    }
+
+
     printf("The amount of hydrogen in the tank is %.1lf kg\n", hydrogenAmount);
     printf("The amount of electricity spent on producing that hydrogen: %.1lf\n", electricitySpent);
     printf("The amount of hydrogen produced %.1lf kg\n", hydrogenProduced);
@@ -118,10 +143,12 @@ void printHydrogen (date inputDate){
 
     printf("Enter a date and time: (yyyy-mm-dd-HH)");
     scanf("%d-%d-%d-%d", &inputDate.year, &inputDate.month, &inputDate.day, &inputDate.hour);
-
-    printf("On the day: %d-%d-%d-%d\n %lf kgs of hydrogen was produced.",
-           inputDate.year, inputDate.month, inputDate.day, inputDate.hour, producedHydrogen);
-
+    if (exceedingElectricity < 0) {
+        printf("No hydrogen is being produced");
+    } else {
+        printf("On the day: %d-%d-%d-%d\n %lf kgs of hydrogen was produced.",
+               inputDate.year, inputDate.month, inputDate.day, inputDate.hour, producedHydrogen);
+    }
 };
 
 double exceedingElectricity(date inputDate, hydrogenTank tank){
@@ -130,3 +157,16 @@ double exceedingElectricity(date inputDate, hydrogenTank tank){
     electricity_exceeding = electricityProduced - tank.totalElectricityUsedKwH;
 
 };
+
+
+
+
+// skriv "prognose" Kunne få en prognose på hvor meget overskydende energi der vil være
+// de næste 24 timer (og hvor meget hydrogen dette svarer til).
+double ExcessEnergy (date Datenow){
+
+
+}
+
+
+
