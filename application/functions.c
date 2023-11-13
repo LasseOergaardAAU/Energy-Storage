@@ -3,6 +3,7 @@
 #include "string.h"
 #include "stdlib.h"
 #include "dataCaller.h"
+
 //Runs the application
 void runApplication() {
     //Our tank has a capacity of 10 tonnes.
@@ -32,8 +33,16 @@ void doNextOperation(char input[], hydrogenTank tank) {
         printTankStatus(tank);
     } else if (strcmp(input, "simulation") == 0) {
         runSimulation();
-    } else if (strcmp(input, "hydrogen") == 0){
-        printHydrogen();
+    } else if (strcmp(input, "hydrogen") == 0) {
+        //printHydrogen();
+    } else if (strcmp(input, "open") == 0) {
+        openFile();
+    } else if (strcmp(input, "close") == 0) {
+        closeFile();
+    } else if (strcmp(input, "data") == 0) {
+        date date1;
+        getGrossConsumption(date1);
+        //date dataDate = scanDate();
     }
 
 }
@@ -45,8 +54,7 @@ void runSimulation() {
           &startingDate.year, &startingDate.month,
           &startingDate.day, &startingDate.hour
     );
-
-    while(1) {
+    while (1) {
         printDate(startingDate);
     }
 }
@@ -65,7 +73,7 @@ int isValidInput(char input[]) {
         return 1;
     } else if (strcmp(input, "status") == 0) {
         return 1;
-    }else if (strcmp(input, "graph") == 0) {
+    } else if (strcmp(input, "graph") == 0) {
         return 1;
     } else if (strcmp(input, "table") == 0) {
         return 1;
@@ -74,6 +82,12 @@ int isValidInput(char input[]) {
     } else if (strcmp(input, "prognosis") == 0) {
         return 1;
     } else if (strcmp(input, "simulation") == 0) {
+        return 1;
+    } else if (strcmp(input, "open") == 0) {
+        return 1;
+    } else if (strcmp(input, "close") == 0) {
+        return 1;
+    } else if (strcmp(input, "data") == 0) {
         return 1;
     } else {
         return 0;
@@ -102,6 +116,7 @@ hydrogenTank increaseTank(hydrogenTank tank, double kg) {
     tank.hydrogenAmountKg += kg;
     return tank;
 }
+
 //Function to decrease our hydrogen amount in our tank
 hydrogenTank decreaseTank(hydrogenTank tank, double kg) {
     tank.hydrogenAmountKg -= kg;
@@ -109,12 +124,12 @@ hydrogenTank decreaseTank(hydrogenTank tank, double kg) {
 }
 
 //Function that tells us how much hydrogen is produced on a certain date
-void printHydrogen (date inputDate){
+void printHydrogen(date inputDate) {
 
     double exceedingElectricity; //Skal være for en specifik dag
     double producedHydrogen;
 
-    producedHydrogen = exceedingElectricity /KWH_PER_KG_HYDROGEN;
+    producedHydrogen = exceedingElectricity / KWH_PER_KG_HYDROGEN;
 
     printf("Enter a date and time: (yyyy-mm-dd-HH)");
     scanf("%d-%d-%d-%d", &inputDate.year, &inputDate.month, &inputDate.day, &inputDate.hour);
@@ -124,9 +139,77 @@ void printHydrogen (date inputDate){
 
 };
 
-double exceedingElectricity(date inputDate, hydrogenTank tank){
+double exceedingElectricity(date inputDate, hydrogenTank tank) {
     double electricity_exceeding;
     double electricityProduced;
     electricity_exceeding = electricityProduced - tank.totalElectricityUsedKwH;
 
 };
+
+date scanDate() {
+    //Scans for date, and returns date as a struct 'date'.
+    char dateStr[13];
+    date dateStruct;
+    printf("Insert date (yyyy-mm-dd-HH)\n>");
+    scanf("%s", dateStr);
+
+    char *token = strtok(dateStr, "-");
+    dateStruct.year = atoi(token);
+
+    token = strtok(NULL, "-");
+    dateStruct.month = atoi(token);
+
+    token = strtok(NULL, "-");
+    dateStruct.day = atoi(token);
+
+    token = strtok(NULL, "-");
+    dateStruct.hour = atoi(token);
+
+    return dateStruct;
+}
+
+double getGrossConsumption(date inputDate) {
+    char buffer[1000];
+    char *data;
+    FILE *filePointer = fopen("EPAU.csv", "r");
+
+    if(filePointer == NULL){
+        exit(-1);
+    }
+
+    for (int i = 0; i < dateToLine(inputDate); ++i) {
+        //gets next line
+        fgets(buffer, sizeof(buffer), filePointer);
+    }
+
+    data = strtok(buffer, ",");
+
+    //gets column of grossconsumption.
+    for (int i = 0; i < 22; ++i) {
+        //Gets next column
+        data = strtok(NULL, ",");
+    }
+    printf("%s\n", data);
+
+
+    fclose(filePointer);
+}
+
+const char* getField(char* line, int num)
+{
+    const char* tok;
+    for (tok = strtok(line, ";");
+         tok && *tok;
+         tok = strtok(NULL, ";\n"))
+    {
+        if (!--num)
+            return tok;
+    }
+    return NULL;
+}
+
+int dateToLine(date inputDate) {
+    // skal sættes lige med den højeste dato vi har i data sættet, hvilket er den dato vi skal regne ud fra.
+    date startDate;
+}
+
