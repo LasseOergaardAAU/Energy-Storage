@@ -3,8 +3,9 @@
 #include "string.h"
 #include "stdlib.h"
 #include "dataCaller.h"
+#include "time.h"
 
-//Runs the application
+
 void runApplication() {
     //Our tank has a capacity of 10 tonnes.
     hydrogenTank tank = {0, 0, 0, 10000};
@@ -40,11 +41,9 @@ void doNextOperation(char input[], hydrogenTank tank) {
     } else if (strcmp(input, "close") == 0) {
         closeFile();
     } else if (strcmp(input, "data") == 0) {
-        date date1;
-        getGrossConsumption(date1);
-        //date dataDate = scanDate();
+        date dataDate;
+        // wip
     }
-
 }
 
 void runSimulation() {
@@ -173,7 +172,7 @@ double getGrossConsumption(date inputDate) {
     char *data;
     FILE *filePointer = fopen("EPAU.csv", "r");
 
-    if(filePointer == NULL){
+    if (filePointer == NULL) {
         exit(-1);
     }
 
@@ -191,25 +190,36 @@ double getGrossConsumption(date inputDate) {
     }
     printf("%s\n", data);
 
-
     fclose(filePointer);
 }
 
-const char* getField(char* line, int num)
-{
-    const char* tok;
-    for (tok = strtok(line, ";");
-         tok && *tok;
-         tok = strtok(NULL, ";\n"))
-    {
-        if (!--num)
-            return tok;
-    }
-    return NULL;
+int dateToLine(date inputDate) {
+    char buffer[1000];
+    char *data;
+    date startDate;
+
+    FILE *filePointer = fopen("EPAU.csv", "r");
+
+    fgets(buffer, sizeof(buffer), filePointer);
+    fgets(buffer, sizeof(buffer), filePointer);
+
+    data = strtok(buffer, ",");
+    char *leftDate = strtok(data, "T");
+    char *rightDate = strtok(NULL, "T");
+
+    char *token = strtok(leftDate, "-");
+    startDate.year = atoi(token);
+
+    token = strtok(NULL, "-");
+    startDate.month = atoi(token);
+
+    token = strtok(NULL, "-");
+    startDate.day = atoi(token);
+
+    token = strtok(rightDate, ":");
+    startDate.hour = atoi(token);
+
+    hoursBetween(startDate, startDate);
 }
 
-int dateToLine(date inputDate) {
-    // skal sættes lige med den højeste dato vi har i data sættet, hvilket er den dato vi skal regne ud fra.
-    date startDate;
-}
 
