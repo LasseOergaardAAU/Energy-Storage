@@ -18,7 +18,7 @@ void runApplication();
 int isValidInput(char input[]);
 void doNextOperation(char input[], hydrogenTank tank);
 double tankPercentageFull(hydrogenTank tank);
-void printTankStatus(hydrogenTank tank);
+void printTank(hydrogenTank tank);
 hydrogenTank increaseTank(hydrogenTank tank, double kg);
 hydrogenTank decreaseTank(hydrogenTank tank, double kg);
 void runSimulation();
