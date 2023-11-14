@@ -3,6 +3,7 @@
 #include "string.h"
 #include "stdlib.h"
 #include "dataCaller.h"
+
 //Runs the application
 void runApplication() {
     //Our tank has a capacity of 10 tonnes.
@@ -32,7 +33,7 @@ void doNextOperation(char input[], hydrogenTank tank) {
         printTankStatus(tank);
     } else if (strcmp(input, "simulation") == 0) {
         runSimulation();
-    } else if (strcmp(input, "hydrogen") == 0){
+    } else if (strcmp(input, "hydrogen") == 0) {
 
     }
 
@@ -46,7 +47,7 @@ void runSimulation() {
           &startingDate.day, &startingDate.hour
     );
 
-    while(1) {
+    while (1) {
         printDate(startingDate);
     }
 }
@@ -65,7 +66,7 @@ int isValidInput(char input[]) {
         return 1;
     } else if (strcmp(input, "status") == 0) {
         return 1;
-    }else if (strcmp(input, "graph") == 0) {
+    } else if (strcmp(input, "graph") == 0) {
         return 1;
     } else if (strcmp(input, "table") == 0) {
         return 1;
@@ -92,30 +93,23 @@ void printTankStatus(hydrogenTank tank) {
     double hydrogenAmount = (tank.hydrogenAmountKg);
     double hydrogenProduced = (tank.totalAmountOfHydrogenProducedKg);
 
-    hydrogen_status = 10;
-
-    if (hydrogen_status == 0) {
-        printf("|----------|\n"
-               "|          | 100%\n"
-               "|          | 90%\n"
-               "|          | 80%\n"
-               "|          | 70%\n"
-               "|          | 50%\n"
-               "|          | 40%\n"
-               "|          | 30%\n"
-               "|          | 20%\n"
-               "|          | 10%\n"
-               "|----------|\nThe tank is empty\n");
-    } else {
-        printf("|----------|\n|");
-        for (int i = 0; i < hydrogen_status ; ++i) {
-                printf("#");
-                for (int i = 0; i < 1 ; ++i) {
-                    printf("|\n|");
-                }
-            }
+    //printer den virtuelle tank
+    printf("|----------|\n|");
+    int counter = 100 - hydrogen_status;
+    for (int i = 0; i < 100; ++i) {
+        if (i % 10 == 0 & i >= 10) {
+            printf("|\n|");
+        }
+        if (counter <= 0) {
+            printf("#");
+        } else {
+            printf(" ");
+        }
+        counter--;
     }
-
+    printf("|\n");
+    printf("|----------|\n");
+    printf("The tank is %.d%% full\n", hydrogen_status);
 
     printf("The amount of hydrogen in the tank is %.1lf kg\n", hydrogenAmount);
     printf("The amount of electricity spent on producing that hydrogen: %.1lf\n", electricitySpent);
@@ -127,6 +121,7 @@ hydrogenTank increaseTank(hydrogenTank tank, double kg) {
     tank.hydrogenAmountKg += kg;
     return tank;
 }
+
 //Function to decrease our hydrogen amount in our tank
 hydrogenTank decreaseTank(hydrogenTank tank, double kg) {
     tank.hydrogenAmountKg -= kg;
@@ -134,12 +129,12 @@ hydrogenTank decreaseTank(hydrogenTank tank, double kg) {
 }
 
 //Function that tells us how much hydrogen is produced on a certain date
-void printHydrogen (date inputDate){
+void printHydrogen(date inputDate) {
 
     double exceedingElectricity; //Skal være for en specifik dag
     double producedHydrogen;
 
-    producedHydrogen = exceedingElectricity /KWH_PER_KG_HYDROGEN;
+    producedHydrogen = exceedingElectricity / KWH_PER_KG_HYDROGEN;
 
     printf("Enter a date and time: (yyyy-mm-dd-HH)");
     scanf("%d-%d-%d-%d", &inputDate.year, &inputDate.month, &inputDate.day, &inputDate.hour);
@@ -151,7 +146,7 @@ void printHydrogen (date inputDate){
     }
 };
 
-double exceedingElectricity(date inputDate, hydrogenTank tank){
+double exceedingElectricity(date inputDate, hydrogenTank tank) {
     double electricity_exceeding;
     double electricityProduced;
     electricity_exceeding = electricityProduced - tank.totalElectricityUsedKwH;
@@ -159,11 +154,9 @@ double exceedingElectricity(date inputDate, hydrogenTank tank){
 };
 
 
-
-
 // skriv "prognose" Kunne få en prognose på hvor meget overskydende energi der vil være
 // de næste 24 timer (og hvor meget hydrogen dette svarer til).
-double ExcessEnergy (date Datenow){
+double ExcessEnergy(date Datenow) {
 
 
 }
