@@ -162,6 +162,12 @@ build application/CMakeFiles/functions.dir/dataCaller.c.obj: C_COMPILER__functio
   OBJECT_DIR = application\CMakeFiles\functions.dir
   OBJECT_FILE_DIR = application\CMakeFiles\functions.dir
 
+build application/CMakeFiles/functions.dir/tank.c.obj: C_COMPILER__functions_unscanned_Debug C$:/Users/lasse/CLionProjects/Energy-Storage/application/tank.c || cmake_object_order_depends_target_functions
+  DEP_FILE = application\CMakeFiles\functions.dir\tank.c.obj.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  OBJECT_DIR = application\CMakeFiles\functions.dir
+  OBJECT_FILE_DIR = application\CMakeFiles\functions.dir
+
 
 # =============================================================================
 # Link build statements for STATIC_LIBRARY target functions
@@ -170,7 +176,7 @@ build application/CMakeFiles/functions.dir/dataCaller.c.obj: C_COMPILER__functio
 #############################################
 # Link the static library application\libfunctions.a
 
-build application/libfunctions.a: C_STATIC_LIBRARY_LINKER__functions_Debug application/CMakeFiles/functions.dir/functions.c.obj application/CMakeFiles/functions.dir/dataCaller.c.obj
+build application/libfunctions.a: C_STATIC_LIBRARY_LINKER__functions_Debug application/CMakeFiles/functions.dir/functions.c.obj application/CMakeFiles/functions.dir/dataCaller.c.obj application/CMakeFiles/functions.dir/tank.c.obj
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = application\CMakeFiles\functions.dir
   POST_BUILD = cd .
