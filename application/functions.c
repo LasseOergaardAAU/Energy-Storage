@@ -140,7 +140,7 @@ hydrogenTank decreaseTank(hydrogenTank tank, double kg) {
     return tank;
 }
 
-//Function that tells us how much hydrogen is produced on a certain date
+// Function that tells us how much hydrogen is produced on a certain date
 void printHydrogen(date inputDate) {
 
     double exceedingElectricity; //Skal være for en specifik dag
