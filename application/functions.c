@@ -104,7 +104,25 @@ void printTankStatus(hydrogenTank tank) {
     double electricitySpent = (tank.totalElectricityUsedKwH);
     double hydrogenAmount = (tank.hydrogenAmountKg);
     double hydrogenProduced = (tank.totalAmountOfHydrogenProducedKg);
-    printf("The tank is %.1lf%% full\n", hydrogen_status);
+
+    //printer den virtuelle tank
+    printf("|----------|\n|");
+    int counter = 100 - hydrogen_status;
+    for (int i = 0; i < 100; ++i) {
+        if (i % 10 == 0 & i >= 10) {
+            printf("|\n|");
+        }
+        if (counter <= 0) {
+            printf("#");
+        } else {
+            printf(" ");
+        }
+        counter--;
+    }
+    printf("|\n");
+    printf("|----------|\n");
+    printf("The tank is %.d%% full\n", hydrogen_status);
+
     printf("The amount of hydrogen in the tank is %.1lf kg\n", hydrogenAmount);
     printf("The amount of electricity spent on producing that hydrogen: %.1lf\n", electricitySpent);
     printf("The amount of hydrogen produced %.1lf kg\n", hydrogenProduced);
@@ -142,7 +160,6 @@ double exceedingElectricity(date inputDate, hydrogenTank tank) {
     double electricity_exceeding;
     double electricityProduced;
     electricity_exceeding = electricityProduced - tank.totalElectricityUsedKwH;
-
 };
 
 date scanDate() {
