@@ -30,14 +30,14 @@ void doNextOperation(char input[], hydrogenTank tank) {
     } else if (strcmp(input, "help") == 0) {
         printf("Here you have the different commands that you can input: \n>status\n>quit\n>graph\n>table\n>prognosis\n>hydrogen\n");
     } else if (strcmp(input, "status") == 0) {
-        printTankStatus(tank);
+        printTank(tank);
     } else if (strcmp(input, "simulation") == 0) {
         runSimulation();
     } else if (strcmp(input, "hydrogen") == 0) {
         //printHydrogen();
     } else if (strcmp(input, "data") == 0) {
-        date dataDate;
-        // wip
+        date dataDate = {2023, 11, 3, 20};
+        getGrossGridLoss(dataDate);
     }
 }
 
