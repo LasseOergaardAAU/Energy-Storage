@@ -36,8 +36,8 @@ void doNextOperation(char input[], hydrogenTank tank) {
     } else if (strcmp(input, "hydrogen") == 0) {
         //printHydrogen();
     } else if (strcmp(input, "data") == 0) {
-        date dataDate = scanDate();
-        getGrossConsumption(dataDate);
+        date dataDate = {2023, 11, 3, 20};
+        getGrossGridLoss(dataDate);
     }
 }
 
