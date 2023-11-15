@@ -25,3 +25,4 @@ void runSimulation();
 void printDate(date inputDate) ;
 void printHydrogen(date inputDate);
 double exceedingElectricity(date inputDate, hydrogenTank tank);
+date scanDate();
