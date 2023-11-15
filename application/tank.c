@@ -28,3 +28,4 @@ int isValidIncreaseOfHydrogen(hydrogenTank tank, double amountIncrease) {
     } else return 1;
 }
 
+
