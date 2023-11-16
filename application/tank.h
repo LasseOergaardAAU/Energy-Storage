@@ -1,5 +1,8 @@
-#include "functions.h"
 
+#ifndef FUNCTIONS_H_INCLUDED
+#define FUNCTIONS_H_INCLUDED
+#include"structs.h"
+#endif
 double isFull (hydrogenTank tank);
 double tankFreeSpace(hydrogenTank tank);
 int isValidIncreaseOfHydrogen(hydrogenTank tank, double amountIncrease);

@@ -4,7 +4,7 @@
 #include "stdlib.h"
 #include "dataCaller.h"
 #include "time.h"
-
+#include "structs.h"
 
 double getGrossConsumption(date inputDate) {
     char buffer[1000];

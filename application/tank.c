@@ -3,7 +3,8 @@
 #include "functions.h"
 #include <stdlib.h>
 #include <math.h>
-
+#include "structs.h"
+#include <string.h>
 
 //This funktion finds out if the tank full
 double isFull(hydrogenTank tank) {
@@ -40,6 +41,27 @@ int isDateEarlier(date date1, date date2) {
     } else {
         return 0;
     }
+}
+
+int isDateValid (date inputDate){
+    FILE *file = fopen("EPAU.csv", "r");
+
+    if (file == NULL) {
+        perror("Error opening file");
+        return -1; // Error opening file
+    }
+
+    char buffer[1000]; // Adjust the buffer size as needed
+
+    while (fgets(buffer, sizeof(buffer), file) != NULL) {
+
+    }
+
+    printf("%s", buffer);
+
+    fclose(file);
+    return 0;
+
 }
 
 //funktion getLastDate
