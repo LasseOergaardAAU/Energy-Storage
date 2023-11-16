@@ -30,7 +30,7 @@ int isValidIncreaseOfHydrogen(hydrogenTank tank, double amountIncrease) {
 
 
 //En funktion der tager imod 2 datoer, return 1 true hvis den første er tidligere
-int isDateValid(date date1, date date2) {
+int isDateEarlier(date date1, date date2) {
 
     if ((date1.year < date2.year) ||
         (date1.year == date2.year && date1.month < date2.month) ||
@@ -41,4 +41,8 @@ int isDateValid(date date1, date date2) {
         return 0;
     }
 }
+
+
+
+
 
