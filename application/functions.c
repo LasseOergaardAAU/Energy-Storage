@@ -48,12 +48,11 @@ void doNextOperation(char input[], hydrogenTank tank) {
         //printHydrogen();
     } else if (strcmp(input, "data") == 0) {
         date dataDate = scanDate();
+        int line = dateToLine(dataDate);
+        date newDate = lineToDate(line);
+        printDate(newDate);
 
-
-        //printf("Gross gridloss: %lf\n", getGrossGridLoss(dataDate));
-        printf("Gross Production: %lf\n", getGrossProduction(dataDate));
-        printf("Gross Consumption: %lf\n", getGrossConsumption(dataDate));
-
+        printf("gridloss: %lf", getGrossGridLoss(dataDate));
     }
 }
 
@@ -61,7 +60,7 @@ void runSimulation(date startDate, date endDate) {
     int simulationLength = (dateToLine(startDate) - dateToLine(endDate))/2;
     for (int i = 0; i < simulationLength; ++i) {
         sleep(1);
-        printf("hey");
+
     }
 }
 
