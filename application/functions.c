@@ -4,7 +4,8 @@
 #include "stdlib.h"
 #include "dataCaller.h"
 #include "time.h"
-
+#include "structs.h"
+#include "tank.h"
 void runApplication() {
     //Our tank has a capacity of 10 tonnes.
     hydrogenTank tank = {0, 0, 0, 10000};

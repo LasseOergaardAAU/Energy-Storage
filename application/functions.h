@@ -1,18 +1,11 @@
+
+#ifndef FUNCTIONS_H_INCLUDED
+#define FUNCTIONS_H_INCLUDED
+#include"structs.h"
+#endif
 #define KWH_PER_KG_HYDROGEN 52.5
 
-typedef struct hydrogenTank{
-    double hydrogenAmountKg;
-    double totalElectricityUsedKwH;
-    double totalAmountOfHydrogenProducedKg;
-    double maxAmountKg;
-} hydrogenTank;
 
-typedef struct date {
-    int year;
-    int month;
-    int day;
-    int hour;
-} date;
 
 void runApplication();
 int isValidInput(char input[]);
