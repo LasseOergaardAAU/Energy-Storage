@@ -5,6 +5,8 @@
 #include "dataCaller.h"
 #include "time.h"
 #include "unistd.h"
+#include "structs.h"
+#include "tank.h"
 
 void runApplication() {
     //Our tank has a capacity of 10 tonnes.
@@ -31,7 +33,9 @@ void doNextOperation(char input[], hydrogenTank tank) {
     } else if (strcmp(input, "help") == 0) {
         printf("Here you have the different commands that you can input: \n>status\n>quit\n>graph\n>table\n>prognosis\n>hydrogen\n");
     } else if (strcmp(input, "status") == 0) {
-        printTank(tank);
+        date dato1 = scanDate();
+        isDateValid(dato1);
+        //printTank(tank);
     } else if (strcmp(input, "simulation") == 0) {
        // date startDate = scanDate();
         //date endDate = scanDate();
@@ -44,12 +48,11 @@ void doNextOperation(char input[], hydrogenTank tank) {
         //printHydrogen();
     } else if (strcmp(input, "data") == 0) {
         date dataDate = scanDate();
+        int line = dateToLine(dataDate);
+        date newDate = lineToDate(line);
+        printDate(newDate);
 
-
-        //printf("Gross gridloss: %lf\n", getGrossGridLoss(dataDate));
-        printf("Gross Production: %lf\n", getGrossProduction(dataDate));
-        printf("Gross Consumption: %lf\n", getGrossConsumption(dataDate));
-
+        printf("gridloss: %lf", getGrossGridLoss(dataDate));
     }
 }
 
@@ -57,7 +60,7 @@ void runSimulation(date startDate, date endDate) {
     int simulationLength = (dateToLine(startDate) - dateToLine(endDate))/2;
     for (int i = 0; i < simulationLength; ++i) {
         sleep(1);
-        printf("hey");
+
     }
 }
 

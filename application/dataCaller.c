@@ -4,7 +4,7 @@
 #include "stdlib.h"
 #include "dataCaller.h"
 #include "time.h"
-
+#include "structs.h"
 
 double getGrossConsumption(date inputDate) {
     char buffer[1000];
@@ -114,10 +114,8 @@ date lineToDate(int line) {
 
     FILE *filePointer = fopen("EPAU.csv", "r");
 
-    fgets(buffer, sizeof(buffer), filePointer);
-    fgets(buffer, sizeof(buffer), filePointer);
 
-    for (int i = 0; i < line; ++i) {
+    for (int i = 0; i < line+1; ++i) {
         fgets(buffer, sizeof(buffer), filePointer);
     }
     char temp[1000];
@@ -125,7 +123,6 @@ date lineToDate(int line) {
 
     data = strtok(temp, ";");
     char *leftDate = strtok(data, "T");
-    char *rightDate = strtok(NULL, "T");
 
     char *token = strtok(leftDate, "-");
     dateResult.year = atoi(token);
@@ -195,7 +192,7 @@ double getGrossGridLoss(date inputDate) {
 
     int lines = dateToLine(inputDate);
 
-    for (int i = 0; i < lines; ++i) {
+    for (int i = 0; i < lines+1; ++i) {
         //gets next line
         fgets(buffer, sizeof(buffer), filePointer);
     }
@@ -221,7 +218,7 @@ double getGrossGridLoss(date inputDate) {
 
     fgets(buffer, sizeof(buffer), filePointer);
     data = strtok(buffer, ";");
-    for (int i = 0; i < 19; ++i) {
+    for (int i = 0; i < 21; ++i) {
         data = strtok(NULL, ";");
     }
 
