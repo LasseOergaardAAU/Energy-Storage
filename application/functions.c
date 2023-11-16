@@ -5,6 +5,8 @@
 #include "dataCaller.h"
 #include "time.h"
 #include "unistd.h"
+#include "structs.h"
+#include "tank.h"
 
 void runApplication() {
     //Our tank has a capacity of 10 tonnes.
@@ -31,7 +33,9 @@ void doNextOperation(char input[], hydrogenTank tank) {
     } else if (strcmp(input, "help") == 0) {
         printf("Here you have the different commands that you can input: \n>status\n>quit\n>graph\n>table\n>prognosis\n>hydrogen\n");
     } else if (strcmp(input, "status") == 0) {
-        printTank(tank);
+        date dato1 = scanDate();
+        isDateValid(dato1);
+        //printTank(tank);
     } else if (strcmp(input, "simulation") == 0) {
        // date startDate = scanDate();
         //date endDate = scanDate();
