@@ -47,7 +47,12 @@ void doNextOperation(char input[], hydrogenTank tank) {
     } else if (strcmp(input, "hydrogen") == 0) {
         //printHydrogen();
     } else if (strcmp(input, "data") == 0) {
+        date dataDate = scanDate();
+        int line = dateToLine(dataDate);
+        date newDate = lineToDate(line);
+        printDate(newDate);
 
+        printf("gridloss: %lf", getGrossGridLoss(dataDate));
     }
 }
 
