@@ -4,8 +4,10 @@
 #include "stdlib.h"
 #include "dataCaller.h"
 #include "time.h"
+#include "unistd.h"
 #include "structs.h"
 #include "tank.h"
+
 void runApplication() {
     //Our tank has a capacity of 10 tonnes.
     hydrogenTank tank = {0, 0, 0, 10000};
@@ -35,24 +37,31 @@ void doNextOperation(char input[], hydrogenTank tank) {
         isDateValid(dato1);
         //printTank(tank);
     } else if (strcmp(input, "simulation") == 0) {
-        runSimulation();
+       // date startDate = scanDate();
+        //date endDate = scanDate();
+        date endDate = {2023, 11, 3, 20};
+        date startDate = {2023, 11, 1, 20};
+
+        runSimulation(startDate, endDate);
+
     } else if (strcmp(input, "hydrogen") == 0) {
         //printHydrogen();
     } else if (strcmp(input, "data") == 0) {
-        date dataDate = {2023, 11, 3, 20};
-        getGrossGridLoss(dataDate);
+        date dataDate = scanDate();
+
+
+        //printf("Gross gridloss: %lf\n", getGrossGridLoss(dataDate));
+        printf("Gross Production: %lf\n", getGrossProduction(dataDate));
+        printf("Gross Consumption: %lf\n", getGrossConsumption(dataDate));
+
     }
 }
 
-void runSimulation() {
-    date startingDate;
-    printf("Choose a starting date and time: (yyyy-mm-dd-HH)\n");
-    scanf("%d-%d-%d-%d",
-          &startingDate.year, &startingDate.month,
-          &startingDate.day, &startingDate.hour
-    );
-    while (1) {
-        printDate(startingDate);
+void runSimulation(date startDate, date endDate) {
+    int simulationLength = (dateToLine(startDate) - dateToLine(endDate))/2;
+    for (int i = 0; i < simulationLength; ++i) {
+        sleep(1);
+        printf("hey");
     }
 }
 

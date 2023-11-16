@@ -14,7 +14,7 @@ double tankPercentageFull(hydrogenTank tank);
 void printTank(hydrogenTank tank);
 hydrogenTank increaseTank(hydrogenTank tank, double kg);
 hydrogenTank decreaseTank(hydrogenTank tank, double kg);
-void runSimulation();
+void runSimulation(date startDate, date endDate);
 void printDate(date inputDate) ;
 void printHydrogen(date inputDate);
 double exceedingElectricity(date inputDate, hydrogenTank tank);

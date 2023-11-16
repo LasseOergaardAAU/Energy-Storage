@@ -20,19 +20,20 @@ double getGrossConsumption(date inputDate) {
     //finds the line of which the data is, based on hour difference.
     int lines = dateToLine(inputDate);
 
-    for (int i = 0; i < lines; ++i) {
+    for (int i = 0; i < lines+1; ++i) {
         //gets next line
         fgets(buffer, sizeof(buffer), filePointer);
     }
-
 
     data = strtok(buffer, ";");
 
     //gets column of gross consumption.
     for (int i = 0; i < 20; ++i) {
         //Gets next column
+
         data = strtok(NULL, ";");
     }
+
 
     //data digits are seperated by "," and not ".", so this is replaced
     for (int i = 0; i < strlen(data); ++i) {
@@ -45,7 +46,7 @@ double getGrossConsumption(date inputDate) {
 
     fgets(buffer, sizeof(buffer), filePointer);
     data = strtok(buffer, ";");
-    for (int i = 0; i < 18; ++i) {
+    for (int i = 0; i < 20; ++i) {
         data = strtok(NULL, ";");
     }
     result += strtod(data, NULL);
@@ -82,6 +83,7 @@ double getGrossProduction(date inputDate) {
                 break;
             }
         }
+
         result += strtod(data, NULL);
         data = strtok(NULL, ";");
     }
@@ -103,6 +105,44 @@ double getGrossProduction(date inputDate) {
     }
 
     return result;
+}
+
+date lineToDate(int line) {
+    char buffer[1000];
+    char *data;
+    date dateResult;
+
+    FILE *filePointer = fopen("EPAU.csv", "r");
+
+    fgets(buffer, sizeof(buffer), filePointer);
+    fgets(buffer, sizeof(buffer), filePointer);
+
+    for (int i = 0; i < line; ++i) {
+        fgets(buffer, sizeof(buffer), filePointer);
+    }
+    char temp[1000];
+    strcpy(temp, buffer);
+
+    data = strtok(temp, ";");
+    char *leftDate = strtok(data, "T");
+    char *rightDate = strtok(NULL, "T");
+
+    char *token = strtok(leftDate, "-");
+    dateResult.year = atoi(token);
+
+    token = strtok(NULL, "-");
+    dateResult.month = atoi(token);
+
+    token = strtok(NULL, "-");
+    dateResult.day = atoi(token);
+
+    token = strtok(buffer, ";");
+    token = strtok(buffer, " ");
+    token = strtok(NULL, " ");
+    token = strtok(token, ":");
+    dateResult.hour = atoi(token);
+
+    return dateResult;
 }
 
 int dateToLine(date inputDate) {
@@ -139,7 +179,7 @@ int dateToLine(date inputDate) {
 
     int hours = hoursBetween(inputDate, startDate);
 
-    return hours * 2 + 2;
+    return hours * 2 + 1;
 }
 
 double getGrossGridLoss(date inputDate) {
