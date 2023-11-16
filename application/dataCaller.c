@@ -4,23 +4,24 @@
 #include "stdlib.h"
 #include "dataCaller.h"
 #include "time.h"
+#include "structs.h"
 
-// Takes a date, and return the gross consumption of the date.
 double getGrossConsumption(date inputDate) {
     char buffer[1000];
     char *data;
     double result = 0;
+    // opens file and checks if it is open.
     FILE *filePointer = fopen("EPAU.csv", "r");
 
     if (filePointer == NULL) {
         exit(-1);
     }
 
-    //finds and goes to the line of which the data is in csv file.
+    //finds the line of which the data is, based on hour difference.
     int lines = dateToLine(inputDate);
 
-
-    for (int i = 0; i < lines + 1; ++i) {
+    for (int i = 0; i < lines+1; ++i) {
+        //gets next line
         fgets(buffer, sizeof(buffer), filePointer);
     }
 
@@ -28,11 +29,13 @@ double getGrossConsumption(date inputDate) {
 
     //gets column of gross consumption.
     for (int i = 0; i < 20; ++i) {
+        //Gets next column
+
         data = strtok(NULL, ";");
     }
 
 
-    //data digits are seperated by "," and not ".", so this is replaced to make it to a double.
+    //data digits are seperated by "," and not ".", so this is replaced
     for (int i = 0; i < strlen(data); ++i) {
         if (data[i] == ',') {
             data[i] = '.';
@@ -41,7 +44,6 @@ double getGrossConsumption(date inputDate) {
     }
     result += strtod(data, NULL);
 
-    // Does this again for the next row, as the next row is another zone in Denmark.
     fgets(buffer, sizeof(buffer), filePointer);
     data = strtok(buffer, ";");
     for (int i = 0; i < 20; ++i) {
@@ -53,7 +55,6 @@ double getGrossConsumption(date inputDate) {
     return result;
 }
 
-//Gets the gross production on a specific date.
 double getGrossProduction(date inputDate) {
     char buffer[1000];
     char *data;
@@ -64,7 +65,7 @@ double getGrossProduction(date inputDate) {
     if (filePointer == NULL) {
         exit(-1);
     }
-    //Find the line of which the data is on, and goes to it.
+
     int lines = dateToLine(inputDate);
 
     for (int i = 0; i < lines; ++i) {
@@ -72,12 +73,9 @@ double getGrossProduction(date inputDate) {
         fgets(buffer, sizeof(buffer), filePointer);
     }
 
-    // Goes to the column of which the production data starts.
     data = strtok(buffer, ";");
     data = strtok(NULL, ";");
     data = strtok(NULL, ";");
-
-    //replaces , with . so it can be made into a double later.
     for (int i = 0; i < 14; ++i) {
         for (int j = 0; j < strlen(data); ++j) {
             if (data[j] == ',') {
@@ -85,11 +83,11 @@ double getGrossProduction(date inputDate) {
                 break;
             }
         }
+
         result += strtod(data, NULL);
         data = strtok(NULL, ";");
     }
 
-    // Does the same to the next line.
     fgets(buffer, sizeof(buffer), filePointer);
     data = strtok(buffer, ";");
     data = strtok(NULL, ";");
@@ -109,7 +107,6 @@ double getGrossProduction(date inputDate) {
     return result;
 }
 
-// Takes a line on the data set, and tells the date on that line.
 date lineToDate(int line) {
     char buffer[1000];
     char *data;
@@ -117,8 +114,10 @@ date lineToDate(int line) {
 
     FILE *filePointer = fopen("EPAU.csv", "r");
 
+    fgets(buffer, sizeof(buffer), filePointer);
+    fgets(buffer, sizeof(buffer), filePointer);
 
-    for (int i = 0; i < line + 1; ++i) {
+    for (int i = 0; i < line; ++i) {
         fgets(buffer, sizeof(buffer), filePointer);
     }
     char temp[1000];
@@ -126,6 +125,7 @@ date lineToDate(int line) {
 
     data = strtok(temp, ";");
     char *leftDate = strtok(data, "T");
+    char *rightDate = strtok(NULL, "T");
 
     char *token = strtok(leftDate, "-");
     dateResult.year = atoi(token);
@@ -145,7 +145,6 @@ date lineToDate(int line) {
     return dateResult;
 }
 
-//Takes a date, and tells which line it is on, in the data set.
 int dateToLine(date inputDate) {
     char buffer[1000];
     char *data;
@@ -183,8 +182,6 @@ int dateToLine(date inputDate) {
     return hours * 2 + 1;
 }
 
-
-// gets the gross grid loss, on a date.
 double getGrossGridLoss(date inputDate) {
     char buffer[1000];
     char *data;
@@ -196,15 +193,13 @@ double getGrossGridLoss(date inputDate) {
         exit(-1);
     }
 
-    //finds the line of which the data is on.
     int lines = dateToLine(inputDate);
 
-    for (int i = 0; i < lines + 1; ++i) {
+    for (int i = 0; i < lines; ++i) {
         //gets next line
         fgets(buffer, sizeof(buffer), filePointer);
     }
 
-    //goes to the column of which the data starts.
     data = strtok(buffer, ";");
     for (int i = 0; i < 21; ++i) {
         data = strtok(NULL, ";");
@@ -218,17 +213,18 @@ double getGrossGridLoss(date inputDate) {
                 break;
             }
         }
-        printf("%s ", data);
         result += strtod(data, NULL);
+        printf("%s \n", data);
         data = strtok(NULL, ";");
     }
 
-    //Does this for the next line too.
+
     fgets(buffer, sizeof(buffer), filePointer);
     data = strtok(buffer, ";");
-    for (int i = 0; i < 21; ++i) {
+    for (int i = 0; i < 19; ++i) {
         data = strtok(NULL, ";");
     }
+
 
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < strlen(data); ++j) {
@@ -237,15 +233,14 @@ double getGrossGridLoss(date inputDate) {
                 break;
             }
         }
-        printf("%s ", data);
         result += strtod(data, NULL);
         data = strtok(NULL, ";");
+
     }
 
     return result;
 }
 
-//Returns the amount of hours between two dates.
 int hoursBetween(date date1, date date2) {
 
     char dateStr1[20]; // end
