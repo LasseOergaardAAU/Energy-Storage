@@ -1,10 +1,6 @@
-Man skal kunne:
 
-   // - Se den totale mængde electricitet brugt på at lave hydrogen.
-   // - Se den totale mængde hydrogen lavet.
-    - Lave en function som fortæller, baseret på om der er overskydende
-      elektricitet, om hydrogen skal dannes
-    - skriv "Hydrogen" Udskriv hvor meget hydrogen der blev produceret på bestemt dag
-    - skriv "prognose" Kunne få en prognose på hvor meget overskydende energi der vil være
-      de næste 24 timer (og hvor meget hydrogen dette svarer til).
+- Lave en function der returnerer mængden af hydrogen en mængde electricitet svarer til.
 
+- Gør tanken bredere og mindre
+- fix validaten i dato
+- fix så simulationens data går videre tank, (lav tank om til en pointer)
