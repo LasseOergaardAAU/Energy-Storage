@@ -10,4 +10,4 @@ void doNextOperation(char input[], hydrogenTank tank, char* commands[], int comm
 hydrogenTank runSimulation(date startDate, date endDate, hydrogenTank tank);
 void printHydrogen(date inputDate);
 double exceedingElectricity(date inputDate, hydrogenTank tank);
-date scanDate();
+void printCommands(char *commands[], int arrLength);
