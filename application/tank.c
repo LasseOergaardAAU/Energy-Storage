@@ -7,7 +7,7 @@
 #include <string.h>
 
 //This funktion finds out if the tank full
-double isFull(hydrogenTank tank) {
+double isTankFull(hydrogenTank tank) {
     if (tank.hydrogenAmountKg == tank.maxAmountKg) {
         return 1;
     } else return 0;
@@ -29,43 +29,63 @@ int isValidIncreaseOfHydrogen(hydrogenTank tank, double amountIncrease) {
     } else return 1;
 }
 
-
-//En funktion der tager imod 2 datoer, return 1 true hvis den første er tidligere
-int isDateEarlier(date date1, date date2) {
-
-    if ((date1.year < date2.year) ||
-        (date1.year == date2.year && date1.month < date2.month) ||
-        (date1.year == date2.year && date1.month == date2.month && date1.day < date2.day) ||
-        (date1.year == date2.year && date1.month == date2.month && date1.day < date2.day && date1.hour < date2.hour)) {
-        return 1;
+double convertElectricityToHydrogen(double electricityMWh) {
+    if ( electricityMWh >= 0) {
+        double result = (electricityMWh / MWH_PER_KG_HYDROGEN) * EL_TO_H_CONV_RATE;
+        return result;
     } else {
         return 0;
     }
 }
 
-int isDateValid (date inputDate){
-    FILE *file = fopen("EPAU.csv", "r");
-
-    if (file == NULL) {
-        perror("Error opening file");
-        return -1; // Error opening file
-    }
-
-    char buffer[1000]; // Adjust the buffer size as needed
-
-    while (fgets(buffer, sizeof(buffer), file) != NULL) {
-
-    }
-
-    printf("%s", buffer);
-
-    fclose(file);
-    return 0;
-
+// Shows how full the hydrogen tank is in percentages.
+double tankPercentageFull(hydrogenTank tank) {
+    double hydrogen_status = (tank.hydrogenAmountKg / tank.maxAmountKg) * 100;
+    return hydrogen_status;
 }
 
-//funktion getLastDate
+void printVirtualTank(hydrogenTank tank) {
+    double hydrogen_status = tankPercentageFull(tank);
+    double electricitySpent = (tank.totalElectricityUsedKwH);
+    double hydrogenAmount = (tank.hydrogenAmountKg);
+    double hydrogenProduced = (tank.totalAmountOfHydrogenProducedKg);
 
-int getLastDate (){
+    //printer den virtuelle tank
+    printf("|----------|\n|");
+    int counter = 100 - hydrogen_status;
+    for (int i = 0; i < 100; ++i) {
+        if (i % 10 == 0 & i >= 10) {
+            printf("|\n|");
+        }
+        if (counter <= 0) {
+            printf("#");
+        } else {
+            printf(" ");
+        }
+        counter--;
+    }
+    printf("|\n");
+    printf("|----------|\n");
+};
 
+void printTankStatus(hydrogenTank tank) {
+
+    printf("The tank is %.lf%% full\n", tankPercentageFull(tank));
+    printf("Total amount of hydrogen in the tank: %.lf kg\n", tank.hydrogenAmountKg);
+    printf("Total amount of hydrogen produced: %.lf kg\n", tank.totalAmountOfHydrogenProducedKg);
+    printf("Total amount of excess electricity used: %.lf MWh\n", tank.totalElectricityUsedKwH);
+    printf("Total amount of space in the tank: %.lf kg\n", tank.maxAmountKg);
+
+};
+
+//Function to increase our hydrogen amount in our tank
+hydrogenTank increaseTank(hydrogenTank tank, double kg) {
+    tank.hydrogenAmountKg += kg;
+    return tank;
+}
+
+//Function to decrease our hydrogen amount in our tank
+hydrogenTank decreaseTank(hydrogenTank tank, double kg) {
+    tank.hydrogenAmountKg -= kg;
+    return tank;
 }

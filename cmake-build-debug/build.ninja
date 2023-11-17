@@ -101,6 +101,12 @@ build src/CMakeFiles/main.dir/__/application/tank.c.obj: C_COMPILER__main_unscan
   OBJECT_DIR = src\CMakeFiles\main.dir
   OBJECT_FILE_DIR = src\CMakeFiles\main.dir\__\application
 
+build src/CMakeFiles/main.dir/__/application/dates.c.obj: C_COMPILER__main_unscanned_Debug C$:/Users/lasse/CLionProjects/Energy-Storage/application/dates.c || cmake_object_order_depends_target_main
+  DEP_FILE = src\CMakeFiles\main.dir\__\application\dates.c.obj.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  OBJECT_DIR = src\CMakeFiles\main.dir
+  OBJECT_FILE_DIR = src\CMakeFiles\main.dir\__\application
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target main
@@ -109,7 +115,7 @@ build src/CMakeFiles/main.dir/__/application/tank.c.obj: C_COMPILER__main_unscan
 #############################################
 # Link the executable src\main.exe
 
-build src/main.exe: C_EXECUTABLE_LINKER__main_Debug src/CMakeFiles/main.dir/main.c.obj src/CMakeFiles/main.dir/__/application/functions.c.obj src/CMakeFiles/main.dir/__/application/dataCaller.c.obj src/CMakeFiles/main.dir/__/application/tank.c.obj
+build src/main.exe: C_EXECUTABLE_LINKER__main_Debug src/CMakeFiles/main.dir/main.c.obj src/CMakeFiles/main.dir/__/application/functions.c.obj src/CMakeFiles/main.dir/__/application/dataCaller.c.obj src/CMakeFiles/main.dir/__/application/tank.c.obj src/CMakeFiles/main.dir/__/application/dates.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = src\CMakeFiles\main.dir
@@ -174,6 +180,12 @@ build application/CMakeFiles/functions.dir/tank.c.obj: C_COMPILER__functions_uns
   OBJECT_DIR = application\CMakeFiles\functions.dir
   OBJECT_FILE_DIR = application\CMakeFiles\functions.dir
 
+build application/CMakeFiles/functions.dir/dates.c.obj: C_COMPILER__functions_unscanned_Debug C$:/Users/lasse/CLionProjects/Energy-Storage/application/dates.c || cmake_object_order_depends_target_functions
+  DEP_FILE = application\CMakeFiles\functions.dir\dates.c.obj.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  OBJECT_DIR = application\CMakeFiles\functions.dir
+  OBJECT_FILE_DIR = application\CMakeFiles\functions.dir
+
 
 # =============================================================================
 # Link build statements for STATIC_LIBRARY target functions
@@ -182,7 +194,7 @@ build application/CMakeFiles/functions.dir/tank.c.obj: C_COMPILER__functions_uns
 #############################################
 # Link the static library application\libfunctions.a
 
-build application/libfunctions.a: C_STATIC_LIBRARY_LINKER__functions_Debug application/CMakeFiles/functions.dir/functions.c.obj application/CMakeFiles/functions.dir/dataCaller.c.obj application/CMakeFiles/functions.dir/tank.c.obj
+build application/libfunctions.a: C_STATIC_LIBRARY_LINKER__functions_Debug application/CMakeFiles/functions.dir/functions.c.obj application/CMakeFiles/functions.dir/dataCaller.c.obj application/CMakeFiles/functions.dir/tank.c.obj application/CMakeFiles/functions.dir/dates.c.obj
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = application\CMakeFiles\functions.dir
   POST_BUILD = cd .
@@ -205,6 +217,12 @@ build application/CMakeFiles/dataCaller.dir/dataCaller.c.obj: C_COMPILER__dataCa
   OBJECT_DIR = application\CMakeFiles\dataCaller.dir
   OBJECT_FILE_DIR = application\CMakeFiles\dataCaller.dir
 
+build application/CMakeFiles/dataCaller.dir/dates.c.obj: C_COMPILER__dataCaller_unscanned_Debug C$:/Users/lasse/CLionProjects/Energy-Storage/application/dates.c || cmake_object_order_depends_target_dataCaller
+  DEP_FILE = application\CMakeFiles\dataCaller.dir\dates.c.obj.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  OBJECT_DIR = application\CMakeFiles\dataCaller.dir
+  OBJECT_FILE_DIR = application\CMakeFiles\dataCaller.dir
+
 
 # =============================================================================
 # Link build statements for STATIC_LIBRARY target dataCaller
@@ -213,7 +231,7 @@ build application/CMakeFiles/dataCaller.dir/dataCaller.c.obj: C_COMPILER__dataCa
 #############################################
 # Link the static library application\libdataCaller.a
 
-build application/libdataCaller.a: C_STATIC_LIBRARY_LINKER__dataCaller_Debug application/CMakeFiles/dataCaller.dir/dataCaller.c.obj
+build application/libdataCaller.a: C_STATIC_LIBRARY_LINKER__dataCaller_Debug application/CMakeFiles/dataCaller.dir/dataCaller.c.obj application/CMakeFiles/dataCaller.dir/dates.c.obj
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = application\CMakeFiles\dataCaller.dir
   POST_BUILD = cd .
