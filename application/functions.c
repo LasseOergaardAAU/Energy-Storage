@@ -38,9 +38,15 @@ void doNextOperation(char input[], hydrogenTank tank, char *commands[], int comm
         printVirtualTank(tank);
         printTankStatus(tank);
     } else if (strcmp(input, "simulation") == 0) {
-        printf("Enter start date of simulation (yyyy-mm-dd-HH)\n");
+        printf("Date has to be between: ");
+        date firstDate = getFirstDate();
+        printDate(firstDate);
+        printf(" & ");
+        date lastDate = getLastDate();
+        printDate(lastDate);
+        printf("\nEnter start date of simulation (yyyy-mm-dd-HH)\n>");
         date startDate = scanDate();
-        printf("Enter end date of simulation (yyyy-mm-dd-HH)\n");
+        printf("Enter end date of simulation (yyyy-mm-dd-HH)\n>");
         date endDate = scanDate();
         runSimulation(startDate, endDate, tank);
     }

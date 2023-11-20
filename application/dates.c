@@ -150,7 +150,7 @@ int isDateReal(date inputDate) {
 }
 
 void printDate(date inputDate) {
-    printf("%d-%d-%d-%d\n",
+    printf("%d-%d-%d-%d",
            inputDate.year, inputDate.month,
            inputDate.day, inputDate.hour
     );
@@ -185,11 +185,11 @@ date scanDate() {
             printf("Is not a real date");
             printf("\n>");
         } else {
-            printf("Date has to be between:\n");
+            printf("Date has to be between: ");
             printDate(getFirstDate());
-            printf("&\n");
+            printf(" & ");
             printDate(getLastDate());
-            printf(">");
+            printf("\n>");
         }
     }
 
