@@ -89,3 +89,8 @@ hydrogenTank decreaseTank(hydrogenTank tank, double kg) {
     tank.hydrogenAmountKg -= kg;
     return tank;
 }
+
+hydrogenTank increaseTotalAmountOfExcessElectricity (hydrogenTank tank, double KwH){
+    tank.totalElectricityUsedKwH += KwH;
+    return tank;
+}

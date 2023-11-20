@@ -13,3 +13,4 @@ void printVirtualTank(hydrogenTank tank);
 hydrogenTank increaseTank(hydrogenTank tank, double kg);
 hydrogenTank decreaseTank(hydrogenTank tank, double kg);
 void printTankStatus(hydrogenTank tank);
+hydrogenTank increaseTotalAmountOfExcessElectricity (hydrogenTank tank, double KwH);
