@@ -3,7 +3,7 @@
 #define ENERGY_STORAGE_STRUCTS_H
 typedef struct hydrogenTank{
     double hydrogenAmountKg;
-    double totalElectricityUsedKwH;
+    double totalElectricityUsedMwH;
     double totalAmountOfHydrogenProducedKg;
     double maxAmountKg;
 } hydrogenTank;

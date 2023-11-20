@@ -12,3 +12,4 @@ int hoursBetween(date date1, date newestDate);
 date lineToDate(int line);
 date getFirstDate();
 int isDateReal(date inputDate);
+date stringToDate(char str[]);

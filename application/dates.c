@@ -30,8 +30,6 @@ int isDateValid(date inputDate) {
     } else {
         return 0;
     }
-
-
 }
 
 date getLastDate() {
@@ -51,26 +49,9 @@ date getLastDate() {
 
     }
 
-    char temp[1000];
-    strcpy(temp, buffer);
+    dateResult = stringToDate(buffer);
 
-    data = strtok(temp, ";");
-    char *leftDate = strtok(data, "T");
-
-    char *token = strtok(leftDate, "-");
-    dateResult.year = atoi(token);
-
-    token = strtok(NULL, "-");
-    dateResult.month = atoi(token);
-
-    token = strtok(NULL, "-");
-    dateResult.day = atoi(token);
-
-    token = strtok(buffer, ";");
-    token = strtok(buffer, " ");
-    token = strtok(NULL, " ");
-    token = strtok(token, ":");
-    dateResult.hour = atoi(token);
+    fclose(file);
 
     return dateResult;
 }
@@ -90,26 +71,10 @@ date getFirstDate() {
     fgets(buffer, sizeof(buffer), file);
     fgets(buffer, sizeof(buffer), file);
 
-    char temp[1000];
-    strcpy(temp, buffer);
 
-    data = strtok(temp, ";");
-    char *leftDate = strtok(data, "T");
+    dateResult = stringToDate(buffer);
 
-    char *token = strtok(leftDate, "-");
-    dateResult.year = atoi(token);
-
-    token = strtok(NULL, "-");
-    dateResult.month = atoi(token);
-
-    token = strtok(NULL, "-");
-    dateResult.day = atoi(token);
-
-    token = strtok(buffer, ";");
-    token = strtok(buffer, " ");
-    token = strtok(NULL, " ");
-    token = strtok(token, ":");
-    dateResult.hour = atoi(token);
+    fclose(file);
 
     return dateResult;
 }
@@ -196,9 +161,9 @@ date scanDate() {
     return dateStruct;
 }
 
+// Takes a line, and returns the date corresponding to the line in the dataset.
 date lineToDate(int line) {
     char buffer[1000];
-    char *data;
     date dateResult;
 
     FILE *filePointer = fopen("EPAU.csv", "r");
@@ -207,66 +172,29 @@ date lineToDate(int line) {
     for (int i = 0; i < line + 1; ++i) {
         fgets(buffer, sizeof(buffer), filePointer);
     }
-    char temp[1000];
-    strcpy(temp, buffer);
-
-    data = strtok(temp, ";");
-    char *leftDate = strtok(data, "T");
-
-    char *token = strtok(leftDate, "-");
-    dateResult.year = atoi(token);
-
-    token = strtok(NULL, "-");
-    dateResult.month = atoi(token);
-
-    token = strtok(NULL, "-");
-    dateResult.day = atoi(token);
-
-    token = strtok(buffer, ";");
-    token = strtok(buffer, " ");
-    token = strtok(NULL, " ");
-    token = strtok(token, ":");
-    dateResult.hour = atoi(token);
+    dateResult = stringToDate(buffer);
+    fclose(filePointer);
 
     return dateResult;
 }
 
+//Takes a date, and find the line it is on, in the dataset.
 int dateToLine(date inputDate) {
     char buffer[1000];
-    char *data;
-    date startDate;
 
     FILE *filePointer = fopen("EPAU.csv", "r");
 
     fgets(buffer, sizeof(buffer), filePointer);
     fgets(buffer, sizeof(buffer), filePointer);
 
-    char temp[1000];
-    strcpy(temp, buffer);
-
-    data = strtok(temp, ";");
-    char *leftDate = strtok(data, "T");
-    char *rightDate = strtok(NULL, "T");
-
-    char *token = strtok(leftDate, "-");
-    startDate.year = atoi(token);
-
-    token = strtok(NULL, "-");
-    startDate.month = atoi(token);
-
-    token = strtok(NULL, "-");
-    startDate.day = atoi(token);
-
-    token = strtok(buffer, ";");
-    token = strtok(buffer, " ");
-    token = strtok(NULL, " ");
-    token = strtok(token, ":");
-    startDate.hour = atoi(token);
+    date startDate = stringToDate(buffer);
 
     int hours = hoursBetween(inputDate, startDate);
+    fclose(filePointer);
 
     return hours * 2 + 1;
 }
+
 
 int hoursBetween(date date1, date date2) {
 
@@ -304,6 +232,35 @@ int hoursBetween(date date1, date date2) {
     int hours = diff / 3600;
 
     return hours;
+}
+
+//Tager en string på formen YYYY-MM-DD TT:MM, og laver den om til en date struct.
+date stringToDate(char str[]) {
+    date dateResult;
+    char *data;
+    char temp[1000];
+    strcpy(temp, str);
+
+    data = strtok(temp, ";");
+    char *leftDate = strtok(data, "T");
+    char *rightDate = strtok(NULL, "T");
+
+    char *token = strtok(leftDate, "-");
+    dateResult.year = atoi(token);
+
+    token = strtok(NULL, "-");
+    dateResult.month = atoi(token);
+
+    token = strtok(NULL, "-");
+    dateResult.day = atoi(token);
+
+    token = strtok(str, ";");
+    token = strtok(str, " ");
+    token = strtok(NULL, " ");
+    token = strtok(token, ":");
+    dateResult.hour = atoi(token);
+
+    return dateResult;
 }
 
 
