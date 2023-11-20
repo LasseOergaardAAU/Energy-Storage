@@ -50,7 +50,7 @@ void printVirtualTank(hydrogenTank *tank) {
     double hydrogenAmount = (tank->hydrogenAmountKg);
     double hydrogenProduced = (tank->totalAmountOfHydrogenProducedKg);
 
-    //printer den virtuelle tank
+
     printf("|--------------------|\n|");
     int counter = 200 - floor(hydrogen_status * 2);
     for (int i = 0; i < 200; ++i) {

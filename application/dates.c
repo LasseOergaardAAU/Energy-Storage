@@ -51,6 +51,8 @@ date getLastDate() {
 
     dateResult = stringToDate(buffer);
 
+    fclose(file);
+
     return dateResult;
 }
 
