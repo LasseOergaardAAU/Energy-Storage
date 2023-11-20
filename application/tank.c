@@ -17,14 +17,14 @@ double isTankFull(hydrogenTank *tank) {
 double tankFreeSpace(hydrogenTank *tank) {
     double calSpaceInTank;
 
-    calSpaceInTank = (tank.maxAmountKg - tank.hydrogenAmountKg);
+    calSpaceInTank = (tank->maxAmountKg - tank->hydrogenAmountKg);
 
     return calSpaceInTank;
 }
 
 //This function checks if the amount of hydrogen that is being added does not exceed the max amount of our tank
-int isValidIncreaseOfHydrogen(hydrogenTank tank, double amountIncrease) {
-    if ((amountIncrease + tank.hydrogenAmountKg) > tank.maxAmountKg) {
+int isValidIncreaseOfHydrogen(hydrogenTank *tank, double amountIncrease) {
+    if ((amountIncrease + tank->hydrogenAmountKg) > tank->maxAmountKg) {
         return 0;
     } else return 1;
 }
