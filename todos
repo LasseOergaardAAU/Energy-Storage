@@ -1,10 +1,11 @@
-Man skal kunne:
+- Funktion som erstatter koden som omskriver dato stringen til en dato struct som bliver skrevet gentagende gange (yyyy-mm-dd-HH).
 
-   // - Se den totale mængde electricitet brugt på at lave hydrogen.
-   // - Se den totale mængde hydrogen lavet.
-    - Lave en function som fortæller, baseret på om der er overskydende
-      elektricitet, om hydrogen skal dannes
-    - skriv "Hydrogen" Udskriv hvor meget hydrogen der blev produceret på bestemt dag
-    - skriv "prognose" Kunne få en prognose på hvor meget overskydende energi der vil være
-      de næste 24 timer (og hvor meget hydrogen dette svarer til).
 
+
+Brainstorm:
+- Have en tank både til DK1 og DK2.
+- Bruge energi i nogle perioder, hvis der bliver produceret for lidt el.
+   - Måske dele mellem DK1 og DK2.
+   - Måske have så man ikke kan gå ned under et bestemt procent, så der altid er en smule tilbage
+
+- Kunne sige "prognosis" og få en prognose for hvor meget hydrogen der vil dannes de næste x dage fra en bestemt dag.
