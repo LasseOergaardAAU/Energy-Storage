@@ -51,10 +51,10 @@ void printVirtualTank(hydrogenTank tank) {
     double hydrogenProduced = (tank.totalAmountOfHydrogenProducedKg);
 
     //printer den virtuelle tank
-    printf("|----------|\n|");
-    int counter = 100 - hydrogen_status;
-    for (int i = 0; i < 100; ++i) {
-        if (i % 10 == 0 & i >= 10) {
+    printf("|--------------------|\n|");
+    int counter = 200 - floor(hydrogen_status*2);
+    for (int i = 0; i < 200; ++i) {
+        if (i % 20 == 0 & i >= 10) {
             printf("|\n|");
         }
         if (counter <= 0) {
@@ -65,12 +65,12 @@ void printVirtualTank(hydrogenTank tank) {
         counter--;
     }
     printf("|\n");
-    printf("|----------|\n");
+    printf("|--------------------|\n");
 };
 
 void printTankStatus(hydrogenTank tank) {
 
-    printf("The tank is %.lf%% full\n", tankPercentageFull(tank));
+    printf("The tank is %.2lf%% full\n", tankPercentageFull(tank));
     printf("Total amount of hydrogen in the tank: %.lf kg\n", tank.hydrogenAmountKg);
     printf("Total amount of hydrogen produced: %.lf kg\n", tank.totalAmountOfHydrogenProducedKg);
     printf("Total amount of excess electricity used: %.lf MWh\n", tank.totalElectricityUsedKwH);
