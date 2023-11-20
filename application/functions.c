@@ -11,6 +11,7 @@
 
 
 void runApplication() {
+
     hydrogenTank tank = {0, 0, 0, 4532000};
     char *commands[] = {"quit", "help", "simulation", "data", "hydrogen", "prognosis", "table", "graph", "status"};
     int commandsLength = sizeof(commands) / sizeof(commands[0]);
@@ -24,12 +25,12 @@ void runApplication() {
             printf("Invalid input. Try again\n");
             continue;
         }
-        doNextOperation(input, tank, commands, commandsLength);
+        doNextOperation(input, &tank, commands, commandsLength);
     }
 }
 
 // Decides what the operation will do.
-void doNextOperation(char input[], hydrogenTank tank, char *commands[], int commandsLength) {
+void doNextOperation(char input[], hydrogenTank *tank, char *commands[], int commandsLength) {
     if (strcmp(input, "quit") == 0) {
         exit(0);
     } else if (strcmp(input, "help") == 0) {
@@ -38,39 +39,71 @@ void doNextOperation(char input[], hydrogenTank tank, char *commands[], int comm
         printVirtualTank(tank);
         printTankStatus(tank);
     } else if (strcmp(input, "simulation") == 0) {
-        printf("Date has to be between: ");
-        date firstDate = getFirstDate();
-        printDate(firstDate);
-        printf(" & ");
-        date lastDate = getLastDate();
-        printDate(lastDate);
-        printf("\nEnter start date of simulation (yyyy-mm-dd-HH)\n>");
-        date startDate = scanDate();
-        printf("Enter end date of simulation (yyyy-mm-dd-HH)\n>");
-        date endDate = scanDate();
-        runSimulation(startDate, endDate, tank);
+        if (isTankFull(tank)) {
+            printf("Tank is already full\n");
+        } else {
+            printf("----------------------\n");
+            printf("Date has to be between: ");
+            date firstDate = getFirstDate();
+            printDate(firstDate);
+            printf(" & ");
+            date lastDate = getLastDate();
+            printDate(lastDate);
+            printf("\nEnter start date of simulation (yyyy-mm-dd-HH)\n>");
+            date startDate = scanDate();
+            printf("Enter end date of simulation (yyyy-mm-dd-HH)\n>");
+            date endDate = scanDate();
+            runSimulation(startDate, endDate, tank);
+        }
+
     }
 }
 
-hydrogenTank runSimulation(date startDate, date endDate, hydrogenTank tank) {
+void runSimulation(date startDate, date endDate, hydrogenTank *tank) {
     int simulationLength = (dateToLine(startDate) - dateToLine(endDate)) / 2;
-    double result = 0;
     int startLine = dateToLine(startDate);
 
     for (int i = 0; i < simulationLength; ++i) {
-        sleep(1);
-        int currectDateLine = startLine - i * 2;
-        date currentDate = lineToDate(currectDateLine);
+
+        int currentDateLine = startLine - i * 2;
+        date currentDate = lineToDate(currentDateLine);
 
         double production = getGrossProduction(currentDate);
         double consumption = getGrossConsumption(currentDate);
-        double excessEnergy = production - consumption;
+        double gridLoss = getGrossGridLoss(currentDate);
+        double excessEnergy = production - consumption - gridLoss;
         double hydrogen = convertElectricityToHydrogen(excessEnergy);
-        tank = increaseTank(tank, hydrogen);
+
+        if (!isTankFull(tank) && !isValidIncreaseOfHydrogen(tank, hydrogen)) {
+            double freeSpace = tankFreeSpace(tank);
+            excessEnergy = freeSpace * MWH_PER_KG_HYDROGEN / EL_TO_H_CONV_RATE;
+        }
+
+        increaseTotalAmountOfExcessElectricity(tank, excessEnergy);
+        increaseTotalAmountOfHydrogenProduced(tank, hydrogen);
+        increaseTank(tank, hydrogen);
+
         printVirtualTank(tank);
-        printTankStatus(tank);
+        printf("The tank is %.2lf%% full\n", tankPercentageFull(tank));
+        printf("Total amount of hydrogen in the tank: %.lf kg\n", tank->hydrogenAmountKg);
+
+        if (isTankFull(tank)) {
+            break;
+        }
+
+        /*sleep(1);*/
     }
-    return tank;
+    printf("------------------------------\n");
+
+    if (isTankFull(tank)) {
+        printf("Simulation stopped, tank is full.\n");
+    } else {
+        printf("Simulation is over.\n");
+    }
+    printf("------------------------------\n");
+
+    printTankStatus(tank);
+
 }
 
 
@@ -83,24 +116,7 @@ int isValidInput(char input[], char *commands[], int arrLength) {
     return 0;
 }
 
-
 void printCommands(char *commands[], int arrLength) {
-    /*if (playerNum == 1) {
-
-        printf("To terminate the program type 'quit' otherwise if you wish to continue."
-               " \nHere are the different commands at your disposal: \n\n");
-
-        for (int i = 1; i < arrLength; ++i) {
-            printf("['%s'] ", commands[i]);
-            if (i%4 == 0){
-               printf("\n");
-            }
-
-
-        }
-        printf("__________________________________________________");
-        printf("\n\n");
-    }*/
 
     printf("]----------------------------------------------------[\n");
     for (int i = 0; i < arrLength; ++i) {
@@ -126,18 +142,5 @@ void printCommands(char *commands[], int arrLength) {
     }
     printf("\n");
     printf("]----------------------------------------------------[\n");
-
-    printf("\n\n");
-
-
-    /*else if(playerNum == 3) {
-        printf("These are the commands you can use in this program\n");
-        printf("-----------------------------------------------------------------------------------------------------\n");
-        for (int i = 0; i < arrLength; ++i) {
-            printf("(%s) - ", commands[i]);
-        }
-        printf("\n-----------------------------------------------------------------------------------------------------\n");
-
-    }*/
 }
 

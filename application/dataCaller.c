@@ -6,11 +6,12 @@
 #include "time.h"
 #include "structs.h"
 #include "dates.h"
+
 double getGrossConsumption(date inputDate) {
     char buffer[1000];
     char *data;
     double result = 0;
-    // opens file and checks if it is open.
+
     FILE *filePointer = fopen("EPAU.csv", "r");
 
     if (filePointer == NULL) {
@@ -33,7 +34,6 @@ double getGrossConsumption(date inputDate) {
 
         data = strtok(NULL, ";");
     }
-
 
     //data digits are seperated by "," and not ".", so this is replaced
     for (int i = 0; i < strlen(data); ++i) {
@@ -103,7 +103,7 @@ double getGrossProduction(date inputDate) {
         result += strtod(data, NULL);
         data = strtok(NULL, ";");
     }
-
+    fclose(filePointer);
     return result;
 }
 
@@ -140,7 +140,6 @@ double getGrossGridLoss(date inputDate) {
             }
         }
         result += strtod(data, NULL);
-        printf("%s \n", data);
         data = strtok(NULL, ";");
     }
 
@@ -164,7 +163,11 @@ double getGrossGridLoss(date inputDate) {
 
     }
 
+
+    fclose(filePointer);
+
     return result;
 }
+
 
 
