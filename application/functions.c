@@ -8,6 +8,7 @@
 #include "structs.h"
 #include "tank.h"
 #include "dates.h"
+#include "time.h"
 
 
 void runApplication() {
