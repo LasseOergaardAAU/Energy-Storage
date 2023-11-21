@@ -15,3 +15,5 @@ void decreaseTank(hydrogenTank* tank, double kg);
 void printTankStatus(hydrogenTank* tank);
 void increaseTotalAmountOfExcessElectricity (hydrogenTank* tank, double MwH);
 void increaseTotalAmountOfHydrogenProduced(hydrogenTank* tank, double kg);
+double calculateExcessEnergy(hydrogenTank* tank, date currentDate);
+double convertHydrogenToElectricity(double hydrogenKG);

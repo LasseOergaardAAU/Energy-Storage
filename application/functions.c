@@ -8,12 +8,12 @@
 #include "structs.h"
 #include "tank.h"
 #include "dates.h"
+#include "time.h"
 
 
 void runApplication() {
-
-    hydrogenTank tank = {0, 0, 0, 4532000};
-    char *commands[] = {"quit", "help", "simulation", "data", "hydrogen", "prognosis", "table", "graph", "status"};
+    hydrogenTank tank = {0, 0, 0, 45320};
+    char *commands[] = {"quit", "help", "simulation", "data", "prognosis", "status"};
     int commandsLength = sizeof(commands) / sizeof(commands[0]);
 
     while (1) {
@@ -42,46 +42,68 @@ void doNextOperation(char input[], hydrogenTank *tank, char *commands[], int com
         if (isTankFull(tank)) {
             printf("Tank is already full\n");
         } else {
-            printf("----------------------\n");
-            printf("Date has to be between: ");
-            date firstDate = getFirstDate();
-            printDate(firstDate);
-            printf(" & ");
-            date lastDate = getLastDate();
-            printDate(lastDate);
-            printf("\nEnter start date of simulation (yyyy-mm-dd-HH)\n>");
-            date startDate = scanDate();
-            printf("Enter end date of simulation (yyyy-mm-dd-HH)\n>");
-            date endDate = scanDate();
-            runSimulation(startDate, endDate, tank);
+            runSimulation(tank);
         }
-
+    } else if (strcmp(input, "data") == 0) {
+        date inputDate = scanDate();
+        printData(inputDate);
     }
 }
 
-void runSimulation(date startDate, date endDate, hydrogenTank *tank) {
+void runSimulation(hydrogenTank *tank) {
+    printf("----------------------\n");
+    printf("Date has to be between: ");
+    date firstDate = getFirstDate();
+    printDate(firstDate);
+    printf(" & ");
+    date lastDate = getLastDate();
+    printDate(lastDate);
+    printf("\nEnter start date of simulation (yyyy-mm-dd-HH)\n>");
+    date startDate = scanDate();
+    printf("Enter end date of simulation (yyyy-mm-dd-HH)\n>");
+    date endDate = scanDate();
+
     int simulationLength = (dateToLine(startDate) - dateToLine(endDate)) / 2;
     int startLine = dateToLine(startDate);
+
 
     for (int i = 0; i < simulationLength; ++i) {
 
         int currentDateLine = startLine - i * 2;
         date currentDate = lineToDate(currentDateLine);
-
-        double production = getGrossProduction(currentDate);
-        double consumption = getGrossConsumption(currentDate);
-        double gridLoss = getGrossGridLoss(currentDate);
-        double excessEnergy = production - consumption - gridLoss;
+        double excessEnergy = calculateExcessEnergy(tank, currentDate);
         double hydrogen = convertElectricityToHydrogen(excessEnergy);
 
-        if (!isTankFull(tank) && !isValidIncreaseOfHydrogen(tank, hydrogen)) {
-            double freeSpace = tankFreeSpace(tank);
-            excessEnergy = freeSpace * MWH_PER_KG_HYDROGEN / EL_TO_H_CONV_RATE;
-        }
+        if (excessEnergy >= 0) {
 
-        increaseTotalAmountOfExcessElectricity(tank, excessEnergy);
-        increaseTotalAmountOfHydrogenProduced(tank, hydrogen);
-        increaseTank(tank, hydrogen);
+            if (!isTankFull(tank) && !isValidIncreaseOfHydrogen(tank, hydrogen)) {
+                double freeSpace = tankFreeSpace(tank);
+                excessEnergy = freeSpace * MWH_PER_KG_HYDROGEN / EL_TO_H_CONV_RATE;
+            }
+
+            increaseTotalAmountOfExcessElectricity(tank, excessEnergy);
+            increaseTotalAmountOfHydrogenProduced(tank, hydrogen);
+            increaseTank(tank, hydrogen);
+        } else {
+            if (tankPercentageFull(tank) >= MINIMUM_TANK_PERCENTAGE_FULL) {
+                /*random number used to simulate percentage amount
+                of underproduction should be covered by hydrogen.*/
+                int randomNum = ((rand() % 31) + 15);
+                double availableHydrogen =
+                        ((tankPercentageFull(tank) - MINIMUM_TANK_PERCENTAGE_FULL) / 100) * tank->maxAmountKg;
+                double energyShareEl = (-1 * (excessEnergy) * (double) randomNum) / 100;
+                double energyShareHydrogen = (energyShareEl / EL_TO_H_CONV_RATE) / MWH_PER_KG_HYDROGEN;
+
+                if (availableHydrogen < energyShareHydrogen) {
+                    energyShareHydrogen = availableHydrogen;
+                    energyShareEl = availableHydrogen * MWH_PER_KG_HYDROGEN / EL_TO_H_CONV_RATE;
+                }
+
+                decreaseTank(tank, energyShareHydrogen);
+                tank->electricityMadeByHydrogenMwH += energyShareEl;
+
+            }
+        }
 
         printVirtualTank(tank);
         printf("The tank is %.2lf%% full\n", tankPercentageFull(tank));
@@ -91,19 +113,17 @@ void runSimulation(date startDate, date endDate, hydrogenTank *tank) {
             break;
         }
 
-        /*sleep(1);*/
     }
-    printf("------------------------------\n");
+    printf("-------------------------------------\n");
 
     if (isTankFull(tank)) {
         printf("Simulation stopped, tank is full.\n");
     } else {
         printf("Simulation is over.\n");
     }
-    printf("------------------------------\n");
+    printf("-------------------------------------\n");
 
     printTankStatus(tank);
-
 }
 
 
@@ -144,3 +164,30 @@ void printCommands(char *commands[], int arrLength) {
     printf("]----------------------------------------------------[\n");
 }
 
+void printData(date inputDate){
+    char buffer[1000];
+
+    FILE* filePointer = fopen("EPAU.csv", "r");
+
+    if (filePointer == NULL) {
+        exit(-1);
+    }
+
+    inputDate.hour = 23;
+    int startLine = dateToLine(inputDate);
+    for (int i = 0; i < startLine+1; ++i) {
+        fgets(buffer, sizeof(buffer), filePointer);
+    }
+    printf("+-------+------------+-------------+----------+--------------------+----------+\n");
+    printf("| Time  | Production | Consumption | Gridloss | Excess Electricity | Hydrogen |\n");
+    printf("+-------+------------+-------------+----------+--------------------+----------+\n");
+
+    for (int i = 0; i < 24; ++i) {
+        printf("| %d:00  | 4202 MWh  |  4302 MWh   |  301 MWh  |      103 MWh      | 4501 kg  |\n", 23-i);
+        printf("+-------+------------+-------------+----------+--------------------+----------+\n");
+
+    }
+    printf("| Total | Production | Consumption | Gridloss | Excess Electricity | Hydrogen |\n");
+    printf("+-------+------------+-------------+----------+--------------------+----------+\n");
+    fclose(filePointer);
+}

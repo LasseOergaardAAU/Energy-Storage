@@ -171,3 +171,4 @@ double getGrossGridLoss(date inputDate) {
 
 
 
+
