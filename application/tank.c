@@ -5,6 +5,7 @@
 #include <math.h>
 #include "structs.h"
 #include <string.h>
+#include "dataCaller.h"
 
 //This function finds out if the tank full
 double isTankFull(hydrogenTank *tank) {
