@@ -1,4 +1,14 @@
 Brainstorm:
 - kunne sige convert og konvertere alt hydrogenen i tanken til el.
+
 - Fix 'help' så den er dynamisk og æstetisk.
--
+
+-I stedet for at når man kører simulationen, og tanken bliver fuld at den så stopper, så kunne man sige:
+"tank is empty, do you wish to stop simulation or continue with a clear tank?" - evt konverterer alt hydrogenen om til el.
+    - Man kunne også spørge om man har lyst til at tilføje en tank mere?
+
+- Måske tilføje en mere kollonne i data som hedder "lack of production" som er den mængde el der er produceret for lidt.
+
+- Burde vi udskrive datoen for når vi laver simulationen? endten for hver iteration, eller i slutningen så simulationen er færdig.
+
+- Ny ide i virtuel tank print med procent i toppen af tanken.

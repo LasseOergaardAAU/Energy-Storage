@@ -52,7 +52,7 @@ void printVirtualTank(hydrogenTank *tank) {
     double hydrogenProduced = (tank->totalAmountOfHydrogenProducedKg);
 
 
-    printf("|--------------------|\n|");
+    printf("|--------%.1lf%%--------|\n|", tankPercentageFull(tank));
     int counter = 200 - floor(hydrogen_status * 2);
     for (int i = 0; i < 200; ++i) {
         if (i % 20 == 0 & i >= 10) {
@@ -70,12 +70,12 @@ void printVirtualTank(hydrogenTank *tank) {
 };
 
 void printTankStatus(hydrogenTank *tank) {
-    printf("The tank is %.2lf%% full\n", tankPercentageFull(tank));
     printf("Total amount of hydrogen in the tank: %.lf kg\n", tank->hydrogenAmountKg);
     printf("Total amount of hydrogen produced: %.lf kg\n", tank->totalAmountOfHydrogenProducedKg);
     printf("Total amount of excess electricity used: %.lf MWh\n", tank->totalElectricityUsedMwH);
     printf("Total amount of space in the tank: %.lf kg\n", tank->maxAmountKg);
     printf("Total amount of electricity made by hydrogen: %.lf MWh\n", tank->electricityMadeByHydrogenMwH);
+    printf("+--------------------------------------------------------+\n");
 };
 
 //Function to increase our hydrogen amount in our tank

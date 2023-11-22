@@ -9,10 +9,10 @@
 #include "tank.h"
 #include "dates.h"
 #include "time.h"
-
+#include <conio.h>
 
 void runApplication() {
-    hydrogenTank tank = {0, 0, 0, 832000};
+    hydrogenTank tank = {0, 0, 0, 8320000};
     char *commands[] = {"quit", "help", "simulation", "data", "status", "reset", "convert"};
     int commandsLength = sizeof(commands) / sizeof(commands[0]);
 
@@ -50,7 +50,7 @@ void doNextOperation(char input[], hydrogenTank *tank, char *commands[], int com
         printData(inputDate);
     } else if (strcmp(input, "reset") == 0){
         resetTank(tank);
-        printf("The tank has been reset.");
+        printf("The tank has been reset.\n");
     } else if (strcmp(input, "convert") == 0){
         // lav funktion som converter alt hydrogen i tank til el.
     }
@@ -71,17 +71,20 @@ void runSimulation(hydrogenTank *tank) {
 
     int simulationLength = (dateToLine(startDate) - dateToLine(endDate)) / 2;
     int startLine = dateToLine(startDate);
-
+    printf("Stop simulation by pressing 'enter'\n");
+    sleep(1);
 
     for (int i = 0; i < simulationLength; ++i) {
-
+        if (_kbhit()) {
+            // If a key is pressed, break out of the loop
+            break;
+        }
         int currentDateLine = startLine - i * 2;
         date currentDate = lineToDate(currentDateLine);
         double excessEnergy = calculateExcessEnergy(currentDate);
         double hydrogen = convertElectricityToHydrogen(excessEnergy);
 
         if (excessEnergy >= 0) {
-
             if (!isTankFull(tank) && !isValidIncreaseOfHydrogen(tank, hydrogen)) {
                 double freeSpace = tankFreeSpace(tank);
                 excessEnergy = freeSpace * MWH_PER_KG_HYDROGEN / EL_TO_H_CONV_RATE;
@@ -111,9 +114,9 @@ void runSimulation(hydrogenTank *tank) {
             }
         }
 
+        printf("\n");
         printVirtualTank(tank);
-        printf("The tank is %.2lf%% full\n", tankPercentageFull(tank));
-        printf("Total amount of hydrogen in the tank: %.lf kg\n", tank->hydrogenAmountKg);
+        printf("Hydrogen in the tank: %.lf kg\n", tank->hydrogenAmountKg);
 
         if (isTankFull(tank)) {
             break;
