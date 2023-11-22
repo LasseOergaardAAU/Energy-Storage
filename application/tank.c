@@ -124,3 +124,10 @@ double convertHydrogenToElectricity(double hydrogenKG) {
         return resultMwH;
     }
 }
+void resetTank(hydrogenTank* tank){
+    tank->hydrogenAmountKg = 0;
+    tank->totalAmountOfHydrogenProducedKg = 0;
+    tank->totalElectricityUsedMwH = 0;
+    tank->electricityMadeByHydrogenMwH = 0;
+}
+

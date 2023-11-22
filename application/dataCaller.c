@@ -169,6 +169,14 @@ double getGrossGridLoss(date inputDate) {
     return result;
 }
 
+char *dataStringToHour(char *datastring) {
+    char *destination;
+    char *tempTimeStr = strdup(datastring);
+    char *dateStr = strtok(tempTimeStr, ";");
+    tempTimeStr = strtok(dateStr, " ");
+    destination = strtok(NULL, ";");
 
+    return destination;
+}
 
 

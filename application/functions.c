@@ -12,8 +12,8 @@
 
 
 void runApplication() {
-    hydrogenTank tank = {0, 0, 0, 45320};
-    char *commands[] = {"quit", "help", "simulation", "data", "prognosis", "status"};
+    hydrogenTank tank = {0, 0, 0, 832000};
+    char *commands[] = {"quit", "help", "simulation", "data", "status", "reset", "convert"};
     int commandsLength = sizeof(commands) / sizeof(commands[0]);
 
     while (1) {
@@ -48,6 +48,11 @@ void doNextOperation(char input[], hydrogenTank *tank, char *commands[], int com
         printf("Enter date (yyyy-mm-dd):\n>");
         date inputDate = scanDate();
         printData(inputDate);
+    } else if (strcmp(input, "reset") == 0){
+        resetTank(tank);
+        printf("The tank has been reset.");
+    } else if (strcmp(input, "convert") == 0){
+        // lav funktion som converter alt hydrogen i tank til el.
     }
 }
 
