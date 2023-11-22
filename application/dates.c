@@ -125,7 +125,7 @@ date scanDate() {
     char dateStr[13];
     date dateStruct;
 
-    //Loop that runs indtill it get a valid data
+    //Loop that runs until it get a valid data
     while (1) {
         //Scans for date, and returns date as a struct 'date'.
 

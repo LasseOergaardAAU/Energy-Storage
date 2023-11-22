@@ -12,8 +12,8 @@
 
 
 void runApplication() {
-    hydrogenTank tank = {0, 0, 0, 45320};
-    char *commands[] = {"quit", "help", "simulation", "data", "prognosis", "status"};
+    hydrogenTank tank = {0, 0, 0, 832000};
+    char *commands[] = {"quit", "help", "simulation", "data", "status", "reset", "convert"};
     int commandsLength = sizeof(commands) / sizeof(commands[0]);
 
     while (1) {
@@ -45,8 +45,14 @@ void doNextOperation(char input[], hydrogenTank *tank, char *commands[], int com
             runSimulation(tank);
         }
     } else if (strcmp(input, "data") == 0) {
+        printf("Enter date (yyyy-mm-dd):\n>");
         date inputDate = scanDate();
         printData(inputDate);
+    } else if (strcmp(input, "reset") == 0){
+        resetTank(tank);
+        printf("The tank has been reset.");
+    } else if (strcmp(input, "convert") == 0){
+        // lav funktion som converter alt hydrogen i tank til el.
     }
 }
 
@@ -71,7 +77,7 @@ void runSimulation(hydrogenTank *tank) {
 
         int currentDateLine = startLine - i * 2;
         date currentDate = lineToDate(currentDateLine);
-        double excessEnergy = calculateExcessEnergy(tank, currentDate);
+        double excessEnergy = calculateExcessEnergy(currentDate);
         double hydrogen = convertElectricityToHydrogen(excessEnergy);
 
         if (excessEnergy >= 0) {
@@ -112,6 +118,7 @@ void runSimulation(hydrogenTank *tank) {
         if (isTankFull(tank)) {
             break;
         }
+        //sleep(1);
 
     }
     printf("-------------------------------------\n");
@@ -164,30 +171,145 @@ void printCommands(char *commands[], int arrLength) {
     printf("]----------------------------------------------------[\n");
 }
 
-void printData(date inputDate){
+//prints data for a whole day in a table.
+void printData(date inputDate) {
     char buffer[1000];
+    inputDate.hour = 23;
+    int startLine = dateToLine(inputDate);
 
-    FILE* filePointer = fopen("EPAU.csv", "r");
+    int productionShouldBeLength = 15;
+    int consumptionShouldBeLength = 15;
+    int gridlossShouldBeLength = 14;
+    int excessElectricityShouldBeLength = 15;
+    int hydrogenShouldBeLength = 14;
+    double totalProduction = 0;
+    double totalConsumption = 0;
+    double totalGridLoss = 0;
+    double totalExcessEnergy = 0;
+    double totalHydrogen = 0;
+    char tempStr[20];
+
+
+    FILE *filePointer = fopen("EPAU.csv", "r");
 
     if (filePointer == NULL) {
         exit(-1);
     }
 
-    inputDate.hour = 23;
-    int startLine = dateToLine(inputDate);
-    for (int i = 0; i < startLine+1; ++i) {
+
+    for (int i = 0; i < startLine + 1; ++i) {
         fgets(buffer, sizeof(buffer), filePointer);
     }
-    printf("+-------+------------+-------------+----------+--------------------+----------+\n");
-    printf("| Time  | Production | Consumption | Gridloss | Excess Electricity | Hydrogen |\n");
-    printf("+-------+------------+-------------+----------+--------------------+----------+\n");
+    printf("                             [ Data Table for %d-%d-%d ] \n", inputDate.year, inputDate.month, inputDate.day);
+    printf("+-------+---------------+---------------+--------------+---------------+--------------+\n");
+    printf("| Time  | Production    | Consumption   | Gridloss     | Excess Energy | Hydrogen     |\n");
+    printf("+-------+---------------+---------------+--------------+---------------+--------------+\n");
 
     for (int i = 0; i < 24; ++i) {
-        printf("| %d:00  | 4202 MWh  |  4302 MWh   |  301 MWh  |      103 MWh      | 4501 kg  |\n", 23-i);
-        printf("+-------+------------+-------------+----------+--------------------+----------+\n");
+        char *tempBuffer = strdup(buffer);
+        char *dateStr = strtok(tempBuffer, ";");
+        date currentDate = stringToDate(dateStr);
 
+        //Prints hour:
+        printf("| %s |", dataStringToHour(buffer));
+
+        //Prints productions
+        double grossProduction = getGrossProduction(currentDate);
+        totalProduction += grossProduction;
+        printf(" %.2lf MWh ", grossProduction);
+        sprintf(tempStr, " %.2lf MWh ", grossProduction);
+        for (int j = 0; j < productionShouldBeLength - strlen(tempStr); ++j) {
+            printf(" ");
+        }
+        printf("|");
+
+        //Prints consumption
+        double grossConsumption = getGrossConsumption(currentDate);
+        totalConsumption += grossConsumption;
+        printf(" %.2lf MWh ", grossConsumption);
+        sprintf(tempStr, " %.2lf MWh ", grossConsumption);
+        for (int j = 0; j < consumptionShouldBeLength - strlen(tempStr); ++j) {
+            printf(" ");
+        }
+        printf("|");
+
+        // Prints the grid loss
+        double grossGridLoss = getGrossGridLoss(currentDate);
+        totalGridLoss += grossGridLoss;
+        printf(" %.2lf MWh ", grossGridLoss);
+        sprintf(tempStr, " %.2lf MWh ", grossGridLoss);
+        for (int j = 0; j < gridlossShouldBeLength - strlen(tempStr); ++j) {
+            printf(" ");
+        }
+        printf("|");
+
+        // Prints the excess energy, and prints 0 if the result is below 0
+        double grossExcessEnergy = calculateExcessEnergy(currentDate);
+
+        if(calculateExcessEnergy(currentDate) < 0) {
+            printf(" 0.00 MWh ");
+            sprintf(tempStr, " 0.00 MWh ");
+        } else {
+            totalExcessEnergy += grossExcessEnergy;
+            printf(" %.2lf MWh ", grossExcessEnergy);
+            sprintf(tempStr, " %.2lf MWh ", grossExcessEnergy);
+        }
+        for (int j = 0; j < excessElectricityShouldBeLength - strlen(tempStr); ++j) {
+            printf(" ");
+        }
+        printf("|");
+
+        //Prints hydrogen made by the excess energy
+        double hydrogenKg = convertElectricityToHydrogen(calculateExcessEnergy(currentDate));
+        totalHydrogen += hydrogenKg;
+        printf(" %.2lf kg ", hydrogenKg);
+        sprintf(tempStr, " %.2lf kg ", hydrogenKg);
+        for (int j = 0; j < hydrogenShouldBeLength - strlen(tempStr); ++j) {
+            printf(" ");
+        }
+        printf("|");
+
+        printf("\n");
+        fgets(buffer, sizeof(buffer), filePointer);
+        fgets(buffer, sizeof(buffer), filePointer);
     }
-    printf("| Total | Production | Consumption | Gridloss | Excess Electricity | Hydrogen |\n");
-    printf("+-------+------------+-------------+----------+--------------------+----------+\n");
+    printf("+-------+---------------+---------------+--------------+---------------+--------------+\n");
+    printf("| Total |");
+    printf(" %.2lf MWh ", totalProduction);
+    sprintf(tempStr, " %.2lf MWh ", totalProduction);
+    for (int j = 0; j < productionShouldBeLength - strlen(tempStr); ++j) {
+        printf(" ");
+    }
+    printf("|");
+    printf(" %.2lf MWh ", totalConsumption);
+    sprintf(tempStr, " %.2lf MWh ", totalConsumption);
+    for (int j = 0; j < consumptionShouldBeLength - strlen(tempStr); ++j) {
+        printf(" ");
+    }
+    printf("|");
+    printf(" %.2lf MWh ", totalGridLoss);
+    sprintf(tempStr, " %.2lf MWh ", totalGridLoss);
+    for (int j = 0; j < gridlossShouldBeLength - strlen(tempStr); ++j) {
+        printf(" ");
+    }
+    printf("|");
+    printf(" %.2lf MWh ", totalExcessEnergy);
+    sprintf(tempStr, " %.2lf MWh ", totalExcessEnergy);
+    for (int j = 0; j < excessElectricityShouldBeLength - strlen(tempStr); ++j) {
+        printf(" ");
+    }
+    printf("|");
+    printf(" %.2lf kg ", totalHydrogen);
+    sprintf(tempStr, " %.2lf kg ", totalHydrogen);
+    for (int j = 0; j < hydrogenShouldBeLength - strlen(tempStr); ++j) {
+        printf(" ");
+    }
+    printf("|");
+    printf("\n");
+    printf("+-------+---------------+---------------+--------------+---------------+--------------+\n");
+
     fclose(filePointer);
 }
+
+
+
