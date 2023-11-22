@@ -110,14 +110,9 @@ void increaseTotalAmountOfHydrogenProduced(hydrogenTank *tank, double kg) {
     }
 }
 
-double calculateExcessEnergy(hydrogenTank* tank,date currentDate){
-
-    double production = getGrossProduction(currentDate);
-    double consumption = getGrossConsumption(currentDate);
-    double gridLoss = getGrossGridLoss(currentDate);
-    double excessEnergy = production - consumption - gridLoss;
-
-    return excessEnergy;
+double calculateExcessEnergy(date currentDate) {
+    double result = getGrossProduction(currentDate) - getGrossConsumption(currentDate) - getGrossGridLoss(currentDate);
+    return result;
 }
 
 double convertHydrogenToElectricity(double hydrogenKG) {
