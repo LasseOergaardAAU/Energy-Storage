@@ -51,8 +51,15 @@ void doNextOperation(char input[], hydrogenTank *tank, char *commands[], int com
     } else if (strcmp(input, "reset") == 0) {
         resetTank(tank);
         printf("The tank has been reset.\n");
-    } else if (strcmp(input, "convert") == 0){
-        // lav funktion som converter alt hydrogen i tank til el.
+    } else if (strcmp(input, "convert") == 0) {
+        if (tankPercentageFull(tank) == 0) {
+            printf("Tank is already empty, nothing to convert.\n");
+        } else {
+            convertTank(tank);
+            printf("The contained hydrogen has now been converted to electricity.\n");
+        }
+    } else if (strcmp(input, "fill") == 0) {
+        fillTank(tank);
     }
 }
 
@@ -215,6 +222,7 @@ void printData(date inputDate) {
     double totalGridLoss = 0;
     double totalExcessEnergy = 0;
     double totalHydrogen = 0;
+    double totalLackOfEnergy = 0;
     char tempStr[20];
 
     FILE *filePointer = fopen("EPAU.csv", "r");
@@ -335,6 +343,14 @@ void printData(date inputDate) {
     for (int j = 0; j < gridlossShouldBeLength - strlen(tempStr); ++j) {
         printf(" ");
     }
+
+    printf("|");
+    printf(" %.2lf MWh ", totalLackOfEnergy);
+    sprintf(tempStr, " %.2lf MWh ", totalLackOfEnergy);
+    for (int j = 0; j < lackOfEnergyShouldBeLength - strlen(tempStr); ++j) {
+        printf(" ");
+    }
+
     printf("|");
     printf(" %.2lf MWh ", totalExcessEnergy);
     sprintf(tempStr, " %.2lf MWh ", totalExcessEnergy);
@@ -355,6 +371,5 @@ void printData(date inputDate) {
 
     fclose(filePointer);
 }
-
 
 
