@@ -107,7 +107,6 @@ double getGrossProduction(date inputDate) {
     return result;
 }
 
-
 double getGrossGridLoss(date inputDate) {
     char buffer[1000];
     char *data;
@@ -142,7 +141,6 @@ double getGrossGridLoss(date inputDate) {
         result += strtod(data, NULL);
         data = strtok(NULL, ";");
     }
-
 
     fgets(buffer, sizeof(buffer), filePointer);
     data = strtok(buffer, ";");

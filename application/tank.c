@@ -50,9 +50,32 @@ void printVirtualTank(hydrogenTank *tank) {
     double electricitySpent = (tank->totalElectricityUsedMwH);
     double hydrogenAmount = (tank->hydrogenAmountKg);
     double hydrogenProduced = (tank->totalAmountOfHydrogenProducedKg);
+    char tempStr[10];
+    int lidShouldBeLength = 20;
+    int leftHyphens = 0;
+    int rightHyphens = 0;
 
+    printf("|");
+    sprintf(tempStr, "%.1lf%%", tankPercentageFull(tank));
+    int percentageLength = strlen(tempStr);
+    if (percentageLength % 2 == 1) {
+        leftHyphens = ((lidShouldBeLength - percentageLength) / 2) + 1;
+        rightHyphens = ((lidShouldBeLength - percentageLength) / 2);
+    } else {
+        leftHyphens = ((lidShouldBeLength - percentageLength) / 2);
+        rightHyphens = ((lidShouldBeLength - percentageLength) / 2);
+    }
 
-    printf("|--------%.1lf%%--------|\n|", tankPercentageFull(tank));
+    for (int i = 0; i < leftHyphens; ++i) {
+        printf("-");
+    }
+    printf("%.1lf%%", tankPercentageFull(tank));
+
+    for (int i = 0; i < rightHyphens; ++i) {
+        printf("-");
+    }
+    printf("|\n|");
+
     int counter = 200 - floor(hydrogen_status * 2);
     for (int i = 0; i < 200; ++i) {
         if (i % 20 == 0 & i >= 10) {
@@ -124,10 +147,27 @@ double convertHydrogenToElectricity(double hydrogenKG) {
         return resultMwH;
     }
 }
-void resetTank(hydrogenTank* tank){
+
+void resetTank(hydrogenTank *tank) {
     tank->hydrogenAmountKg = 0;
     tank->totalAmountOfHydrogenProducedKg = 0;
     tank->totalElectricityUsedMwH = 0;
     tank->electricityMadeByHydrogenMwH = 0;
+}
+
+void convertTank(hydrogenTank *tank) {
+    double elMWh = convertHydrogenToElectricity(tank->hydrogenAmountKg);
+    tank->electricityMadeByHydrogenMwH += elMWh;
+    tank->hydrogenAmountKg = 0;
+}
+
+void fillTank(hydrogenTank *tank){
+    double addHydrogen;
+    printf("The tank contains %.lf kg as of right now.\n", tank->hydrogenAmountKg);
+    printf("The tank is %.lf kg, how many kgs of hydrogen do you wish to add?\n>", tank->maxAmountKg);
+    scanf("%lf",&addHydrogen);
+    increaseTank(tank, addHydrogen);
+    printf("The new status of the tank is:\n");
+    printTankStatus(tank);
 }
 

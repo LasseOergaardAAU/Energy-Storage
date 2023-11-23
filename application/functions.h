@@ -8,6 +8,5 @@ void runApplication();
 int isValidInput(char input[], char* commands[], int commandsLength);
 void doNextOperation(char input[], hydrogenTank* tank, char* commands[], int commandsLength);
 void runSimulation(hydrogenTank* tank);
-void printHydrogen(date inputDate);
 void printCommands(char *commands[], int arrLength);
 void printData(date inputDate);
