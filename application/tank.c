@@ -98,8 +98,8 @@ void printTankStatus(hydrogenTank *tank) {
     printf("Total amount of excess electricity used: %.lf MWh\n", tank->totalElectricityUsedMwH);
     printf("Total amount of space in the tank: %.lf kg\n", tank->maxAmountKg);
     printf("Total amount of electricity made by hydrogen: %.lf MWh\n", tank->electricityMadeByHydrogenMwH);
-    printf("+--------------------------------------------------------+\n");
-};
+    printf("+---------------------------------------------------------------+\n");
+}
 
 //Function to increase our hydrogen amount in our tank
 void increaseTank(hydrogenTank *tank, double kg) {
