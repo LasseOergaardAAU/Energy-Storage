@@ -12,8 +12,8 @@
 #include <conio.h>
 
 void runApplication() {
-    hydrogenTank tank = {0, 0, 0, 8320000};
-    char *commands[] = {"quit", "help", "simulation", "data", "status", "reset", "convert"};
+    hydrogenTank tank = {0, 0, 0, 83200};
+    char *commands[] = {"quit", "help", "simulation", "data", "status", "reset", "convert", "fill"};
     int commandsLength = sizeof(commands) / sizeof(commands[0]);
 
     while (1) {
