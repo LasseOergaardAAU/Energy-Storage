@@ -1,8 +1,9 @@
-Brainstorm:
-- Bruge energi i nogle perioder, hvis der bliver produceret for lidt el.
-   - Måske have så man ikke kan gå ned under et bestemt procent, så der altid er en smule tilbage
+-
 
 
-- Kunne sige "prognosis" og få en prognose for hvor meget hydrogen der vil dannes de næste x dage fra en bestemt dag.
-- Kunne sige "data" og blive promptet for en dag, hvor man så vil få dataen fra en dag.
-- kunne sige clear tank.
+
+
+
+
+- Fix 'help' så den er dynamisk og æstetisk. (Mulig opgave if you like (s)pain) :DD
+

@@ -21,7 +21,7 @@ double getGrossConsumption(date inputDate) {
     //finds the line of which the data is, based on hour difference.
     int lines = dateToLine(inputDate);
 
-    for (int i = 0; i < lines+1; ++i) {
+    for (int i = 0; i < lines + 1; ++i) {
         //gets next line
         fgets(buffer, sizeof(buffer), filePointer);
     }
@@ -107,7 +107,6 @@ double getGrossProduction(date inputDate) {
     return result;
 }
 
-
 double getGrossGridLoss(date inputDate) {
     char buffer[1000];
     char *data;
@@ -121,7 +120,7 @@ double getGrossGridLoss(date inputDate) {
 
     int lines = dateToLine(inputDate);
 
-    for (int i = 0; i < lines+1; ++i) {
+    for (int i = 0; i < lines + 1; ++i) {
         //gets next line
         fgets(buffer, sizeof(buffer), filePointer);
     }
@@ -142,7 +141,6 @@ double getGrossGridLoss(date inputDate) {
         result += strtod(data, NULL);
         data = strtok(NULL, ";");
     }
-
 
     fgets(buffer, sizeof(buffer), filePointer);
     data = strtok(buffer, ";");
@@ -169,6 +167,14 @@ double getGrossGridLoss(date inputDate) {
     return result;
 }
 
+char *dataStringToHour(char *datastring) {
+    char *destination;
+    char *tempTimeStr = strdup(datastring);
+    char *dateStr = strtok(tempTimeStr, ";");
+    tempTimeStr = strtok(dateStr, " ");
+    destination = strtok(NULL, ";");
 
+    return destination;
+}
 
 
