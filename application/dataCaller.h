@@ -5,6 +5,6 @@
 double getGrossConsumption(date inputDate);
 double getGrossProduction(date inputDate);
 double getGrossGridLoss(date inputDate);
-char* dataStringToHour(char* datastring);
+char* dataStringToHour(char* dataString);
 
 

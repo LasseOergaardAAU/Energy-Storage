@@ -6,7 +6,6 @@
 double isTankFull (hydrogenTank* tank);
 double tankFreeSpace(hydrogenTank* tank);
 int isValidIncreaseOfHydrogen(hydrogenTank* tank, double amountIncrease);
-
 double convertElectricityToHydrogen(double electricityMWh);
 double tankPercentageFull(hydrogenTank* tank);
 void printVirtualTank(hydrogenTank* tank);
@@ -18,3 +17,5 @@ void increaseTotalAmountOfHydrogenProduced(hydrogenTank* tank, double kg);
 double calculateExcessEnergy(date currentDate);
 double convertHydrogenToElectricity(double hydrogenKG);
 void resetTank(hydrogenTank* tank);
+void convertTank(hydrogenTank *tank);
+void fillTank(hydrogenTank *tank);

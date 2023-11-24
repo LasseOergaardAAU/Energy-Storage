@@ -3,7 +3,6 @@
 #include "string.h"
 #include "stdlib.h"
 #include "dataCaller.h"
-#include "time.h"
 #include "structs.h"
 #include "dates.h"
 
@@ -18,24 +17,24 @@ double getGrossConsumption(date inputDate) {
         exit(-1);
     }
 
-    //finds the line of which the data is, based on hour difference.
+    // Finds the line of which the data is, based on hour difference.
     int lines = dateToLine(inputDate);
 
     for (int i = 0; i < lines + 1; ++i) {
-        //gets next line
+        // Gets next line
         fgets(buffer, sizeof(buffer), filePointer);
     }
 
     data = strtok(buffer, ";");
 
-    //gets column of gross consumption.
+    // Gets column of gross consumption.
     for (int i = 0; i < 20; ++i) {
         //Gets next column
 
         data = strtok(NULL, ";");
     }
 
-    //data digits are seperated by "," and not ".", so this is replaced
+    // Data digits are seperated by "," and not ".", so this is replaced
     for (int i = 0; i < strlen(data); ++i) {
         if (data[i] == ',') {
             data[i] = '.';
@@ -69,7 +68,7 @@ double getGrossProduction(date inputDate) {
     int lines = dateToLine(inputDate);
 
     for (int i = 0; i < lines; ++i) {
-        //gets next line
+        // Gets next line
         fgets(buffer, sizeof(buffer), filePointer);
     }
 
@@ -106,7 +105,6 @@ double getGrossProduction(date inputDate) {
     fclose(filePointer);
     return result;
 }
-
 
 double getGrossGridLoss(date inputDate) {
     char buffer[1000];
@@ -122,7 +120,7 @@ double getGrossGridLoss(date inputDate) {
     int lines = dateToLine(inputDate);
 
     for (int i = 0; i < lines + 1; ++i) {
-        //gets next line
+        // Gets next line
         fgets(buffer, sizeof(buffer), filePointer);
     }
 
@@ -142,7 +140,6 @@ double getGrossGridLoss(date inputDate) {
         result += strtod(data, NULL);
         data = strtok(NULL, ";");
     }
-
 
     fgets(buffer, sizeof(buffer), filePointer);
     data = strtok(buffer, ";");
@@ -169,9 +166,9 @@ double getGrossGridLoss(date inputDate) {
     return result;
 }
 
-char *dataStringToHour(char *datastring) {
+char *dataStringToHour(char *dataString) {
     char *destination;
-    char *tempTimeStr = strdup(datastring);
+    char *tempTimeStr = strdup(dataString);
     char *dateStr = strtok(tempTimeStr, ";");
     tempTimeStr = strtok(dateStr, " ");
     destination = strtok(NULL, ";");
