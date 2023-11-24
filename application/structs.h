@@ -6,6 +6,7 @@ typedef struct hydrogenTank{
     double totalElectricityUsedMwH;
     double totalAmountOfHydrogenProducedKg;
     double maxAmountKg;
+    double electricityMadeByHydrogenMwH;
 } hydrogenTank;
 
 typedef struct date {
@@ -16,4 +17,6 @@ typedef struct date {
 } date;
 #define MWH_PER_KG_HYDROGEN 0.040
 #define EL_TO_H_CONV_RATE 0.7
+#define H_TO_EL_CONV_RATE 0.7
+#define MINIMUM_TANK_PERCENTAGE_FULL 30
 #endif //ENERGY_STORAGE_STRUCTS_H

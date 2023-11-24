@@ -5,6 +5,7 @@
 #include <math.h>
 #include "structs.h"
 #include <string.h>
+#include "dataCaller.h"
 
 //This function finds out if the tank full
 double isTankFull(hydrogenTank *tank) {
@@ -69,13 +70,12 @@ void printVirtualTank(hydrogenTank *tank) {
 };
 
 void printTankStatus(hydrogenTank *tank) {
-
     printf("The tank is %.2lf%% full\n", tankPercentageFull(tank));
     printf("Total amount of hydrogen in the tank: %.lf kg\n", tank->hydrogenAmountKg);
     printf("Total amount of hydrogen produced: %.lf kg\n", tank->totalAmountOfHydrogenProducedKg);
     printf("Total amount of excess electricity used: %.lf MWh\n", tank->totalElectricityUsedMwH);
     printf("Total amount of space in the tank: %.lf kg\n", tank->maxAmountKg);
-
+    printf("Total amount of electricity made by hydrogen: %.lf MWh\n", tank->electricityMadeByHydrogenMwH);
 };
 
 //Function to increase our hydrogen amount in our tank
@@ -108,5 +108,26 @@ void increaseTotalAmountOfHydrogenProduced(hydrogenTank *tank, double kg) {
         double increaseWith = freeSpaceInTank;
         tank->totalAmountOfHydrogenProducedKg += increaseWith;
     }
+}
+
+double calculateExcessEnergy(date currentDate) {
+    double result = getGrossProduction(currentDate) - getGrossConsumption(currentDate) - getGrossGridLoss(currentDate);
+    return result;
+}
+
+double convertHydrogenToElectricity(double hydrogenKG) {
+    if (hydrogenKG <= 0) {
+        return 0;
+    } else {
+        double resultMwH;
+        resultMwH = (hydrogenKG * MWH_PER_KG_HYDROGEN) * H_TO_EL_CONV_RATE;
+        return resultMwH;
+    }
+}
+void resetTank(hydrogenTank* tank){
+    tank->hydrogenAmountKg = 0;
+    tank->totalAmountOfHydrogenProducedKg = 0;
+    tank->totalElectricityUsedMwH = 0;
+    tank->electricityMadeByHydrogenMwH = 0;
 }
 
