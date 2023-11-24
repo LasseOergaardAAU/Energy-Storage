@@ -7,14 +7,14 @@
 #include <string.h>
 #include "dataCaller.h"
 
-//This function finds out if the tank full
+// This function return 1 if tank is full
 double isTankFull(hydrogenTank *tank) {
     if (tank->hydrogenAmountKg >= tank->maxAmountKg) {
         return 1;
     } else return 0;
 }
 
-//This function tells us how much free space there is in the tank
+// This function tells us how much free space there is in the tank
 double tankFreeSpace(hydrogenTank *tank) {
     double calSpaceInTank;
 
@@ -23,7 +23,7 @@ double tankFreeSpace(hydrogenTank *tank) {
     return calSpaceInTank;
 }
 
-//This function checks if the amount of hydrogen that is being added does not exceed the max amount of our tank
+// This function checks if the amount of hydrogen that is being added does not exceed the max amount of our tank
 int isValidIncreaseOfHydrogen(hydrogenTank *tank, double amountIncrease) {
     if ((amountIncrease + tank->hydrogenAmountKg) > tank->maxAmountKg) {
         return 0;
@@ -47,9 +47,6 @@ double tankPercentageFull(hydrogenTank *tank) {
 
 void printVirtualTank(hydrogenTank *tank) {
     double hydrogen_status = tankPercentageFull(tank);
-    double electricitySpent = (tank->totalElectricityUsedMwH);
-    double hydrogenAmount = (tank->hydrogenAmountKg);
-    double hydrogenProduced = (tank->totalAmountOfHydrogenProducedKg);
     char tempStr[10];
     int lidShouldBeLength = 20;
     int leftHyphens = 0;
@@ -101,7 +98,7 @@ void printTankStatus(hydrogenTank *tank) {
     printf("+---------------------------------------------------------------+\n");
 }
 
-//Function to increase our hydrogen amount in our tank
+// Function to increase hydrogen amount in tank
 void increaseTank(hydrogenTank *tank, double kg) {
     if (isValidIncreaseOfHydrogen(tank, kg)) {
         tank->hydrogenAmountKg += kg;
@@ -112,7 +109,7 @@ void increaseTank(hydrogenTank *tank, double kg) {
     }
 }
 
-//Function to decrease our hydrogen amount in our tank
+// Function to decrease hydrogen amount in tank
 void decreaseTank(hydrogenTank *tank, double kg) {
     tank->hydrogenAmountKg -= kg;
 }
@@ -163,11 +160,27 @@ void convertTank(hydrogenTank *tank) {
 
 void fillTank(hydrogenTank *tank){
     double addHydrogen;
-    printf("The tank contains %.lf kg as of right now.\n", tank->hydrogenAmountKg);
-    printf("The tank is %.lf kg, how many kgs of hydrogen do you wish to add?\n>", tank->maxAmountKg);
-    scanf("%lf",&addHydrogen);
-    increaseTank(tank, addHydrogen);
-    printf("The new status of the tank is:\n");
-    printTankStatus(tank);
+    if (tankPercentageFull(tank) != 100) {
+        printf("The tank contains %.lf kg as of right now.\n", tank->hydrogenAmountKg);
+        printf("The tank is %.lf kg, how many kgs of hydrogen do you wish to add?\n>", tank->maxAmountKg);
+        while(1) {
+            scanf("%lf",&addHydrogen);
+            if (addHydrogen>=0) {
+                break;
+            } else {
+                printf("Has to be 0 or larger.\n>");
+            }
+        }
+
+        if (addHydrogen > tank->maxAmountKg-tank->hydrogenAmountKg) {
+            printf("Only room for %.lf kg\n", tank->maxAmountKg - tank->hydrogenAmountKg);
+        }
+        increaseTank(tank, addHydrogen);
+        printf("The new status of the tank is:\n");
+        printTankStatus(tank);
+    } else {
+        printf("Tank is already full.\n");
+    }
+
 }
 
