@@ -149,9 +149,9 @@ date scanDate() {
             printf("\n>");
         } else {
             printf("Date has to be between: ");
-            printDate(getFirstDate());
-            printf(" & ");
             printDate(getLastDate());
+            printf(" & ");
+            printDate(getFirstDate());
             printf("\n>");
         }
     }

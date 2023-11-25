@@ -48,6 +48,14 @@ double getGrossConsumption(date inputDate) {
     for (int i = 0; i < 20; ++i) {
         data = strtok(NULL, ";");
     }
+
+    for (int i = 0; i < strlen(data); ++i) {
+        if (data[i] == ',') {
+            data[i] = '.';
+            break;
+        }
+    }
+
     result += strtod(data, NULL);
     fclose(filePointer);
 
