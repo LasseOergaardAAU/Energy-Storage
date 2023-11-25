@@ -8,7 +8,7 @@
 #include "dataCaller.h"
 
 // This function return 1 if tank is full
-double isTankFull(hydrogenTank *tank) {
+int isTankFull(hydrogenTank *tank) {
     if (tank->hydrogenAmountKg >= tank->maxAmountKg) {
         return 1;
     } else return 0;
