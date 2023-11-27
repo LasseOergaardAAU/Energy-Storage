@@ -5,13 +5,11 @@ void testIsDateEarlier(void) {
 
 }
 
+
 void testIsDateValid(void) {
 
 }
 
-void testGetLastDate(void) {
-
-}
 
 void testGetFirstDate(void) {
 

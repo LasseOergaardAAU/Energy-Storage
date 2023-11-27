@@ -30,10 +30,8 @@ int main() {
     // Dates tests:
     testIsDateEarlier();
     testIsDateValid();
-    testGetLastDate();
     testGetFirstDate();
     testIsDateReal();
-    testLineToDate();
     testDateToLine();
     testHoursBetween();
     testStringToDate();
