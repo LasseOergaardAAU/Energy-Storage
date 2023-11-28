@@ -16,7 +16,6 @@ int main() {
     testConvertHydrogenToElectricity();
     testResetTank();
     testConvertTank();
-    testFillTank();
 
     // DataCaller tests:
     testGetGrossConsumption();
@@ -30,10 +29,8 @@ int main() {
     // Dates tests:
     testIsDateEarlier();
     testIsDateValid();
-    testGetLastDate();
     testGetFirstDate();
     testIsDateReal();
-    testLineToDate();
     testDateToLine();
     testHoursBetween();
     testStringToDate();

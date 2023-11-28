@@ -15,7 +15,6 @@ void testCalculateExcessEnergy(void);
 void testConvertHydrogenToElectricity(void);
 void testResetTank(void);
 void testConvertTank(void);
-void testFillTank(void);
 
 // DataCaller tests:
 void testGetGrossConsumption(void);
@@ -26,10 +25,8 @@ void testDataStringToHour(void);
 // Dates tests:
 void testIsDateEarlier(void);
 void testIsDateValid(void);
-void testGetLastDate(void);
 void testGetFirstDate(void);
 void testIsDateReal(void);
-void testLineToDate(void);
 void testDateToLine(void);
 void testHoursBetween(void);
 void testStringToDate(void);

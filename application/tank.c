@@ -181,6 +181,5 @@ void fillTank(hydrogenTank *tank){
     } else {
         printf("Tank is already full.\n");
     }
-
 }
 
