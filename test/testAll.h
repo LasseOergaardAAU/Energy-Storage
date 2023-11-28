@@ -15,7 +15,6 @@ void testCalculateExcessEnergy(void);
 void testConvertHydrogenToElectricity(void);
 void testResetTank(void);
 void testConvertTank(void);
-void testFillTank(void);
 
 // DataCaller tests:
 void testGetGrossConsumption(void);
