@@ -16,7 +16,6 @@ int main() {
     testConvertHydrogenToElectricity();
     testResetTank();
     testConvertTank();
-    testFillTank();
 
     // DataCaller tests:
     testGetGrossConsumption();

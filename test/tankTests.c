@@ -179,16 +179,12 @@ void testResetTank(void) {
 
 void testConvertTank(void) {
     // Assign
+    hydrogenTank tank = {100,0,100,100,0};
+    double expected = 100*MWH_PER_KG_HYDROGEN*0.7;
 
     //Act
+    convertTank(&tank);
 
     //Assert
-}
-
-void testFillTank(void) {
-    // Assign
-
-    //Act
-
-    //Assert
+    assert(expected == tank.electricityMadeByHydrogenMwH);
 }
