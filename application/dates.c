@@ -1,4 +1,4 @@
-    #include "dates.h"
+#include "dates.h"
 #include "functions.h"
 #include "stdio.h"
 #include "string.h"
@@ -178,7 +178,7 @@ date lineToDate(int line) {
     return dateResult;
 }
 
-//Takes a date, and find the line it is on, in the dataset.
+// Takes a date, and find the line it is on, in the dataset.
 int dateToLine(date inputDate) {
     char buffer[1000];
 
