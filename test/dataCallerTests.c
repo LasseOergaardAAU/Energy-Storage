@@ -49,7 +49,7 @@ void testGetGrossGridLoss(void) {
 void testDataStringToHour(void) {
     // Assign
     char buffer[1000];
-    FILE *fp = fopen("EPAU.csv", "r");
+    FILE *fp = fopen("EPAC.csv", "r");
 
     char *expected = "08:00"; // For line 30
     char *result;

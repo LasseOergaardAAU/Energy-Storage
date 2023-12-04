@@ -20,7 +20,7 @@ int isDateEarlier(date date1, date date2) {
     }
 }
 
-// Checking to see if the date is valid or within the bounds of the dataset.
+// Checking to see if the date is real and within the bounds of the dataset.
 int isDateValid(date inputDate) {
     date firstDate = getFirstDate();
     date lastDate = getLastDate();
@@ -32,7 +32,7 @@ int isDateValid(date inputDate) {
 }
 
 date getLastDate() {
-    FILE *file = fopen("EPAU.csv", "r");
+    FILE *file = fopen("EPAC.csv", "r");
     char *data;
     date dateResult;
 
@@ -56,7 +56,7 @@ date getLastDate() {
 }
 
 date getFirstDate() {
-    FILE *file = fopen("EPAU.csv", "r");
+    FILE *file = fopen("EPAC.csv", "r");
     date dateResult;
 
     if (file == NULL) {
@@ -164,7 +164,7 @@ date lineToDate(int line) {
     char buffer[1000];
     date dateResult;
 
-    FILE *filePointer = fopen("EPAU.csv", "r");
+    FILE *filePointer = fopen("EPAC.csv", "r");
 
 
     for (int i = 0; i < line + 1; ++i) {
@@ -180,7 +180,7 @@ date lineToDate(int line) {
 int dateToLine(date inputDate) {
     char buffer[1000];
 
-    FILE *filePointer = fopen("EPAU.csv", "r");
+    FILE *filePointer = fopen("EPAC.csv", "r");
 
     fgets(buffer, sizeof(buffer), filePointer);
     fgets(buffer, sizeof(buffer), filePointer);

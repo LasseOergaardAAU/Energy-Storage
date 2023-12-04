@@ -11,7 +11,7 @@ double getGrossConsumption(date inputDate) {
     char *data;
     double result = 0;
 
-    FILE *filePointer = fopen("EPAU.csv", "r");
+    FILE *filePointer = fopen("EPAC.csv", "r");
 
     if (filePointer == NULL) {
         exit(-1);
@@ -67,7 +67,7 @@ double getGrossProduction(date inputDate) {
     char *data;
     double result = 0;
 
-    FILE *filePointer = fopen("EPAU.csv", "r");
+    FILE *filePointer = fopen("EPAC.csv", "r");
 
     if (filePointer == NULL) {
         exit(-1);
@@ -119,7 +119,7 @@ double getGrossGridLoss(date inputDate) {
     char *data;
     double result = 0;
 
-    FILE *filePointer = fopen("EPAU.csv", "r");
+    FILE *filePointer = fopen("EPAC.csv", "r");
 
     if (filePointer == NULL) {
         exit(-1);

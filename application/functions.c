@@ -10,7 +10,7 @@
 #include <conio.h>
 
 void runApplication() {
-    hydrogenTank tank = {0, 0, 0, 832000};
+    hydrogenTank tank = {0, 0, 0, 100000};
     char *commands[] = {"quit", "help", "simulation", "data", "status", "reset", "convert", "fill"};
     int commandsLength = sizeof(commands) / sizeof(commands[0]);
 
@@ -240,7 +240,7 @@ void printData(date inputDate) {
     double totalLackOfEnergy = 0;
     char tempStr[20];
 
-    FILE *filePointer = fopen("EPAU.csv", "r");
+    FILE *filePointer = fopen("EPAC.csv", "r");
     if (filePointer == NULL) {
         exit(-1);
     }

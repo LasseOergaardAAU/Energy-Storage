@@ -35,7 +35,7 @@ void testIsDateValid(void) {
 void testGetFirstDate(void) {
     // Assign
     char buffer[1000];
-    FILE *fp = fopen("EPAU.csv", "r");
+    FILE *fp = fopen("EPAC.csv", "r");
 
     fgets(buffer, sizeof(buffer), fp);
     fgets(buffer, sizeof(buffer), fp);
