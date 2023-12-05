@@ -3,7 +3,17 @@
 This is a console application, that based on data of electricity from renewable energy
 sources, can tell whether it is worth converting electricity to hydrogen.
 
->  This application is made as a part of our P1 Project.
+> This application is made as a part of our P1 Project.
+
+## Building the program.
+> To build the program, a licence for CLion is required.
+
+1) Set working directory to the project's main folder.
+2) Press "`build`" (The hammer in the header) or "`run`" (The play button in the header).
+
+<img src="img/buttons.png" width="120" style="margin-left:36px">
+
+
 
 ## Running the program examples.
 
@@ -11,7 +21,7 @@ Examples on running the application:
 
 1) Run the program, and type "`help`".
     * This prints all the possible commands available to run.
-      <img alt="Help example" src="img/help.png" width=480>
+    <img alt="Help example" src="img/help.png" width=480>
 
 2) Run the program, and type "`data`".
     * This prompts the user for a date.
@@ -43,8 +53,8 @@ Examples on running the application:
 
 ## About the tests
 
-
 ## Authors
+
 + [Lasse Moesgaard Ørgaard](https://github.com/LasseOergaardAAU)<br/>
 + [Magnus Hyldgaard Kristensen](https://github.com/MagnusHK3)<br/>
 + [Hera Diep](https://github.com/Hera97)<br/>

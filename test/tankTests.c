@@ -44,7 +44,7 @@ void testTankFreeSpace(void) {
 void testIsValidIncreaseOfHydrogen(void) {
     // Assign
     hydrogenTank tank =  {50,0,100,100,0};
-    double amountIncrease = 30;
+    int amountIncrease = 30;
 
     int result;
     int expected = 1;
