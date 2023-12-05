@@ -19,17 +19,18 @@ sources, can tell whether it is worth converting electricity to hydrogen.
 
 Examples on running the application:
 
-1) Run the program, and type "`help`".
+1) Run "`main`".
+1) Type "`help`".
     * This prints all the possible commands available to run.
     <img alt="Help example" src="img/help.png" width=480>
 
-2) Run the program, and type "`data`".
+2) Type "`data`".
     * This prompts the user for a date.
     * After date has been input, data for that day will be printed on the screen.
       !["Data" Command](img/data.png "Data")
       ...
       !["Data" Command](img/data2.png "Data")
-3) Run the program, and type "`simulation`".
+3) Type "`simulation`".
     * This prompts the user for a start, and end date.
     * When the two dates have been input, a simulation will run through these dates, and fill a virtual
       tank with hydrogen from the excess electricity.
@@ -52,6 +53,7 @@ Examples on running the application:
     * This will reset everything in the tank.
 
 ## About the tests
+1) To run the tests, run the "`All CTest`" Configuration.
 
 ## Authors
 
