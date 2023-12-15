@@ -3,7 +3,6 @@
 #include "string.h"
 #include "stdlib.h"
 #include "dataCaller.h"
-#include "time.h"
 #include "structs.h"
 #include "dates.h"
 
@@ -12,30 +11,30 @@ double getGrossConsumption(date inputDate) {
     char *data;
     double result = 0;
 
-    FILE *filePointer = fopen("EPAU.csv", "r");
+    FILE *filePointer = fopen("EPAC.csv", "r");
 
     if (filePointer == NULL) {
         exit(-1);
     }
 
-    //finds the line of which the data is, based on hour difference.
+    // Finds the line of which the data is, based on hour difference.
     int lines = dateToLine(inputDate);
 
     for (int i = 0; i < lines + 1; ++i) {
-        //gets next line
+        // Gets next line
         fgets(buffer, sizeof(buffer), filePointer);
     }
 
     data = strtok(buffer, ";");
 
-    //gets column of gross consumption.
+    // Gets column of gross consumption.
     for (int i = 0; i < 20; ++i) {
         //Gets next column
 
         data = strtok(NULL, ";");
     }
 
-    //data digits are seperated by "," and not ".", so this is replaced
+    // Data digits are seperated by "," and not ".", so this is replaced
     for (int i = 0; i < strlen(data); ++i) {
         if (data[i] == ',') {
             data[i] = '.';
@@ -49,6 +48,14 @@ double getGrossConsumption(date inputDate) {
     for (int i = 0; i < 20; ++i) {
         data = strtok(NULL, ";");
     }
+
+    for (int i = 0; i < strlen(data); ++i) {
+        if (data[i] == ',') {
+            data[i] = '.';
+            break;
+        }
+    }
+
     result += strtod(data, NULL);
     fclose(filePointer);
 
@@ -60,7 +67,7 @@ double getGrossProduction(date inputDate) {
     char *data;
     double result = 0;
 
-    FILE *filePointer = fopen("EPAU.csv", "r");
+    FILE *filePointer = fopen("EPAC.csv", "r");
 
     if (filePointer == NULL) {
         exit(-1);
@@ -69,7 +76,7 @@ double getGrossProduction(date inputDate) {
     int lines = dateToLine(inputDate);
 
     for (int i = 0; i < lines; ++i) {
-        //gets next line
+        // Gets next line
         fgets(buffer, sizeof(buffer), filePointer);
     }
 
@@ -112,7 +119,7 @@ double getGrossGridLoss(date inputDate) {
     char *data;
     double result = 0;
 
-    FILE *filePointer = fopen("EPAU.csv", "r");
+    FILE *filePointer = fopen("EPAC.csv", "r");
 
     if (filePointer == NULL) {
         exit(-1);
@@ -121,7 +128,7 @@ double getGrossGridLoss(date inputDate) {
     int lines = dateToLine(inputDate);
 
     for (int i = 0; i < lines + 1; ++i) {
-        //gets next line
+        // Gets next line
         fgets(buffer, sizeof(buffer), filePointer);
     }
 
@@ -167,9 +174,9 @@ double getGrossGridLoss(date inputDate) {
     return result;
 }
 
-char *dataStringToHour(char *datastring) {
+char *dataStringToHour(char *dataString) {
     char *destination;
-    char *tempTimeStr = strdup(datastring);
+    char *tempTimeStr = strdup(dataString);
     char *dateStr = strtok(tempTimeStr, ";");
     tempTimeStr = strtok(dateStr, " ");
     destination = strtok(NULL, ";");

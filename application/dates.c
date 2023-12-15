@@ -5,11 +5,10 @@
 #include "stdlib.h"
 #include "dataCaller.h"
 #include "time.h"
-#include "unistd.h"
 #include "structs.h"
 #include "tank.h"
 
-//En funktion der tager imod 2 datoer, return 1 true hvis den første er tidligere
+// A function that accepts 2 dates, return 1 true if the first is earlier
 int isDateEarlier(date date1, date date2) {
     if ((date1.year < date2.year) ||
         (date1.year == date2.year && date1.month < date2.month) ||
@@ -21,7 +20,7 @@ int isDateEarlier(date date1, date date2) {
     }
 }
 
-// Checking to see if the date is valid or within the bounds of the dataset.
+// Checking to see if the date is real and within the bounds of the dataset.
 int isDateValid(date inputDate) {
     date firstDate = getFirstDate();
     date lastDate = getLastDate();
@@ -33,7 +32,7 @@ int isDateValid(date inputDate) {
 }
 
 date getLastDate() {
-    FILE *file = fopen("EPAU.csv", "r");
+    FILE *file = fopen("EPAC.csv", "r");
     char *data;
     date dateResult;
 
@@ -44,7 +43,7 @@ date getLastDate() {
 
     char buffer[1000]; // Adjust the buffer size as needed
 
-    //sets buffer to the last line in csv file.
+    // Sets buffer to the last line in csv file.
     while (fgets(buffer, sizeof(buffer), file) != NULL) {
 
     }
@@ -57,8 +56,7 @@ date getLastDate() {
 }
 
 date getFirstDate() {
-    FILE *file = fopen("EPAU.csv", "r");
-    char *data;
+    FILE *file = fopen("EPAC.csv", "r");
     date dateResult;
 
     if (file == NULL) {
@@ -125,9 +123,9 @@ date scanDate() {
     char dateStr[13];
     date dateStruct;
 
-    //Loop that runs until it get a valid data
+    // Loop that runs until it get a valid data
     while (1) {
-        //Scans for date, and returns date as a struct 'date'.
+        // Scans for date, and returns date as a struct 'date'.
 
         scanf("%s", dateStr);
 
@@ -146,14 +144,14 @@ date scanDate() {
         if (isDateValid(dateStruct)) {
             break;
         }
-        if(!isDateReal(dateStruct)) {
+        if (!isDateReal(dateStruct)) {
             printf("Is not a real date");
             printf("\n>");
         } else {
             printf("Date has to be between: ");
-            printDate(getFirstDate());
-            printf(" & ");
             printDate(getLastDate());
+            printf(" & ");
+            printDate(getFirstDate());
             printf("\n>");
         }
     }
@@ -166,7 +164,7 @@ date lineToDate(int line) {
     char buffer[1000];
     date dateResult;
 
-    FILE *filePointer = fopen("EPAU.csv", "r");
+    FILE *filePointer = fopen("EPAC.csv", "r");
 
 
     for (int i = 0; i < line + 1; ++i) {
@@ -182,7 +180,7 @@ date lineToDate(int line) {
 int dateToLine(date inputDate) {
     char buffer[1000];
 
-    FILE *filePointer = fopen("EPAU.csv", "r");
+    FILE *filePointer = fopen("EPAC.csv", "r");
 
     fgets(buffer, sizeof(buffer), filePointer);
     fgets(buffer, sizeof(buffer), filePointer);
@@ -198,8 +196,8 @@ int dateToLine(date inputDate) {
 
 int hoursBetween(date date1, date date2) {
 
-    char dateStr1[20]; // end
-    char dateStr2[20]; // beginning
+    char dateStr1[20]; // End
+    char dateStr2[20]; // Beginning
 
     snprintf(dateStr1, sizeof(dateStr1), "%d-%d-%d %d:00:00", date1.year, date1.month, date1.day, date1.hour);
     snprintf(dateStr2, sizeof(dateStr2), "%d-%d-%d %d:00:00", date2.year, date2.month, date2.day, date2.hour);
@@ -234,7 +232,7 @@ int hoursBetween(date date1, date date2) {
     return hours;
 }
 
-//Tager en string på formen YYYY-MM-DD TT:MM, og laver den om til en date struct.
+// Takes a string in the form YYYY-MM-DD TT:MM and turns it into a date struct.
 date stringToDate(char str[]) {
     date dateResult;
     char *data;

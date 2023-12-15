@@ -3,10 +3,9 @@
 #define FUNCTIONS_H_INCLUDED
 #include"structs.h"
 #endif
-double isTankFull (hydrogenTank* tank);
+int isTankFull (hydrogenTank* tank);
 double tankFreeSpace(hydrogenTank* tank);
 int isValidIncreaseOfHydrogen(hydrogenTank* tank, double amountIncrease);
-
 double convertElectricityToHydrogen(double electricityMWh);
 double tankPercentageFull(hydrogenTank* tank);
 void printVirtualTank(hydrogenTank* tank);

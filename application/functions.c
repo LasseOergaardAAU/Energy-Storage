@@ -3,16 +3,14 @@
 #include "string.h"
 #include "stdlib.h"
 #include "dataCaller.h"
-#include "time.h"
 #include "unistd.h"
 #include "structs.h"
 #include "tank.h"
 #include "dates.h"
-#include "time.h"
 #include <conio.h>
 
 void runApplication() {
-    hydrogenTank tank = {0, 0, 0, 8320000};
+    hydrogenTank tank = {0, 0, 0, 100000};
     char *commands[] = {"quit", "help", "simulation", "data", "status", "reset", "convert", "fill"};
     int commandsLength = sizeof(commands) / sizeof(commands[0]);
 
@@ -29,9 +27,10 @@ void runApplication() {
     }
 }
 
-// Decides what the operation will do.
+// Does the next operation based on command from user.
 void doNextOperation(char input[], hydrogenTank *tank, char *commands[], int commandsLength) {
     if (strcmp(input, "quit") == 0) {
+        printf("Quiting the program.");
         exit(0);
     } else if (strcmp(input, "help") == 0) {
         printCommands(commands, commandsLength);
@@ -45,6 +44,14 @@ void doNextOperation(char input[], hydrogenTank *tank, char *commands[], int com
             runSimulation(tank);
         }
     } else if (strcmp(input, "data") == 0) {
+        printf("----------------------\n");
+        printf("Date has to be between: ");
+        date lastDate = getLastDate();
+        printDate(lastDate);
+        printf(" & ");
+        date firstDate = getFirstDate();
+        printDate(firstDate);
+        printf("\n");
         printf("Enter date (yyyy-mm-dd):\n>");
         date inputDate = scanDate();
         printData(inputDate);
@@ -59,26 +66,35 @@ void doNextOperation(char input[], hydrogenTank *tank, char *commands[], int com
             printf("The contained hydrogen has now been converted to electricity.\n");
         }
     } else if (strcmp(input, "fill") == 0) {
+        printf("----------------------\n");
         fillTank(tank);
     }
 }
 
 void runSimulation(hydrogenTank *tank) {
-    int trackerLine;
     printf("----------------------\n");
     printf("Date has to be between: ");
-    date firstDate = getFirstDate();
-    printDate(firstDate);
-    printf(" & ");
     date lastDate = getLastDate();
     printDate(lastDate);
+    printf(" & ");
+    date firstDate = getFirstDate();
+    printDate(firstDate);
     printf("\nEnter start date of simulation (yyyy-mm-dd-HH)\n>");
     date startDate = scanDate();
     printf("Enter end date of simulation (yyyy-mm-dd-HH)\n>");
-    date endDate = scanDate();
+    date endDate;
+    while(1) {
+        endDate = scanDate();
+        if(!isDateEarlier(endDate, startDate)) {
+            break;
+        } else {
+            printf("End date can not be before start date\n>");
+        }
+    }
 
-    int simulationLength = (dateToLine(startDate) - dateToLine(endDate)) / 2;
+    int simulationLength = 1+((dateToLine(startDate) - dateToLine(endDate)) / 2) ;
     int startLine = dateToLine(startDate);
+    int trackerLine = startLine;
     printf("Stop simulation by pressing 'enter'\n");
     sleep(2);
 
@@ -105,8 +121,7 @@ void runSimulation(hydrogenTank *tank) {
             increaseTank(tank, hydrogen);
         } else {
             if (tankPercentageFull(tank) >= MINIMUM_TANK_PERCENTAGE_FULL) {
-                /*random number used to simulate percentage amount
-                of underproduction should be covered by hydrogen.*/
+                // Number to simulate percentage of underproduction covered by hydrogen
                 int randomNum = ((rand() % 31) + 15);
                 double availableHydrogen =
                         ((tankPercentageFull(tank) - MINIMUM_TANK_PERCENTAGE_FULL) / 100) * tank->maxAmountKg;
@@ -135,7 +150,7 @@ void runSimulation(hydrogenTank *tank) {
             printf("'1': Convert hydrogen to electricity and continue.\n");
             printf("'2': Stop simulation.\n>");
 
-            while(1) {
+            while (1) {
                 scanf("%s", userInput);
 
                 if (strcmp(userInput, "1") == 0) {
@@ -157,7 +172,7 @@ void runSimulation(hydrogenTank *tank) {
             }
 
         }
-        //sleep(1);
+        //sleep(1)
     }
     printf("+---------------------------------------------------------------+\n");
     printf("Simulation results for the period: ");
@@ -205,7 +220,7 @@ void printCommands(char *commands[], int arrLength) {
     printf("]----------------------------------------------------[\n");
 }
 
-//prints data for a whole day in a table.
+// Prints data for a whole day in a table.
 void printData(date inputDate) {
     char buffer[1000];
     inputDate.hour = 23;
@@ -213,7 +228,7 @@ void printData(date inputDate) {
 
     int productionShouldBeLength = 15;
     int consumptionShouldBeLength = 15;
-    int gridlossShouldBeLength = 14;
+    int gridLossShouldBeLength = 14;
     int excessElectricityShouldBeLength = 15;
     int hydrogenShouldBeLength = 14;
     int lackOfEnergyShouldBeLength = 16;
@@ -225,7 +240,7 @@ void printData(date inputDate) {
     double totalLackOfEnergy = 0;
     char tempStr[20];
 
-    FILE *filePointer = fopen("EPAU.csv", "r");
+    FILE *filePointer = fopen("EPAC.csv", "r");
     if (filePointer == NULL) {
         exit(-1);
     }
@@ -244,10 +259,10 @@ void printData(date inputDate) {
         char *dateStr = strtok(tempBuffer, ";");
         date currentDate = stringToDate(dateStr);
 
-        //Prints hour:
+        // Prints hour:
         printf("| %s |", dataStringToHour(buffer));
 
-        //Prints productions
+        // Prints productions
         double grossProduction = getGrossProduction(currentDate);
         totalProduction += grossProduction;
         printf(" %.2lf MWh ", grossProduction);
@@ -257,7 +272,7 @@ void printData(date inputDate) {
         }
         printf("|");
 
-        //Prints consumption
+        // Prints consumption
         double grossConsumption = getGrossConsumption(currentDate);
         totalConsumption += grossConsumption;
         printf(" %.2lf MWh ", grossConsumption);
@@ -272,12 +287,12 @@ void printData(date inputDate) {
         totalGridLoss += grossGridLoss;
         printf(" %.2lf MWh ", grossGridLoss);
         sprintf(tempStr, " %.2lf MWh ", grossGridLoss);
-        for (int j = 0; j < gridlossShouldBeLength - strlen(tempStr); ++j) {
+        for (int j = 0; j < gridLossShouldBeLength - strlen(tempStr); ++j) {
             printf(" ");
         }
         printf("|");
 
-        //Prints the lack of energy
+        // Prints the lack of energy
         double grossLackOfEnergy = (-1) * calculateExcessEnergy(currentDate); /*= getLackOfEnergy(currentDate);*/
         if (grossLackOfEnergy > 0) {
             totalLackOfEnergy += grossLackOfEnergy;
@@ -308,7 +323,7 @@ void printData(date inputDate) {
         }
         printf("|");
 
-        //Prints hydrogen made by the excess energy
+        // Prints hydrogen made by the excess energy
         double hydrogenKg = convertElectricityToHydrogen(calculateExcessEnergy(currentDate));
         totalHydrogen += hydrogenKg;
         printf(" %.2lf kg ", hydrogenKg);
@@ -340,7 +355,7 @@ void printData(date inputDate) {
     printf("|");
     printf(" %.2lf MWh ", totalGridLoss);
     sprintf(tempStr, " %.2lf MWh ", totalGridLoss);
-    for (int j = 0; j < gridlossShouldBeLength - strlen(tempStr); ++j) {
+    for (int j = 0; j < gridLossShouldBeLength - strlen(tempStr); ++j) {
         printf(" ");
     }
 
